@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>720</width>
+    <height>1170</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="loginButton">
+   <widget class="QPushButton" name="button_login">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>310</y>
-      <width>211</width>
+      <x>400</x>
+      <y>610</y>
+      <width>190</width>
       <height>51</height>
      </rect>
     </property>
@@ -30,10 +30,10 @@
    <widget class="QLineEdit" name="lineEdit_ID">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>140</y>
-      <width>401</width>
-      <height>51</height>
+      <x>190</x>
+      <y>450</y>
+      <width>400</width>
+      <height>50</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -47,10 +47,10 @@
    <widget class="QLineEdit" name="lineEdit_PW">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>220</y>
-      <width>401</width>
-      <height>51</height>
+      <x>190</x>
+      <y>530</y>
+      <width>400</width>
+      <height>50</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -61,13 +61,65 @@
 </string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_title">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>370</y>
+      <width>500</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:28pt; font-weight:700;&quot;&gt;Messenger&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_register">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>610</y>
+      <width>190</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Register</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_ID">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>450</y>
+      <width>80</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;ID&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_PW">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>530</y>
+      <width>80</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;PW&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>720</width>
      <height>27</height>
     </rect>
    </property>

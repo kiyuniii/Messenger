@@ -31,7 +31,7 @@ public:
     {
         if (ContactListWindow->objectName().isEmpty())
             ContactListWindow->setObjectName("ContactListWindow");
-        ContactListWindow->resize(800, 600);
+        ContactListWindow->resize(720, 1170);
         centralwidget = new QWidget(ContactListWindow);
         centralwidget->setObjectName("centralwidget");
         button_Close = new QPushButton(centralwidget);
@@ -40,7 +40,7 @@ public:
         ContactListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ContactListWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 720, 22));
         ContactListWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(ContactListWindow);
         statusbar->setObjectName("statusbar");

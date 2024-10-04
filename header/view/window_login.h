@@ -2,7 +2,7 @@
 #define WINDOW_LOGIN_H
 
 #include "window_main.h"
-
+#include "window_register.h"
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -23,9 +23,11 @@ public:
 private:
     Ui::LoginWindow *ui;
     MainWindow *mainWindow;
+    RegisterWindow *registerWindow;
 
 private slots:
-    void openMainWindow();
+    void open_MainWindow();
+    void open_RegisterWindow();
 };
 
 #endif // WINDOW_LOGIN_H

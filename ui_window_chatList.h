@@ -31,7 +31,7 @@ public:
     {
         if (ChatListWindow->objectName().isEmpty())
             ChatListWindow->setObjectName("ChatListWindow");
-        ChatListWindow->resize(800, 600);
+        ChatListWindow->resize(720, 1170);
         centralwidget = new QWidget(ChatListWindow);
         centralwidget->setObjectName("centralwidget");
         label = new QLabel(centralwidget);
@@ -40,7 +40,7 @@ public:
         ChatListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ChatListWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 720, 22));
         ChatListWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(ChatListWindow);
         statusbar->setObjectName("statusbar");
