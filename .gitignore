@@ -1,4 +1,3 @@
-*.stash
 *.o
 moc_*
 ui_*
