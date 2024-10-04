@@ -2,8 +2,8 @@
  *
  */
 
-#include "contactlistwindow.h"
-#include "ui_contactlistwindow.h"
+#include "window_contactList.h"
+#include "ui_window_contactList.h"
 
 ContactListWindow::ContactListWindow(QWidget *parent)
     : QMainWindow(parent)

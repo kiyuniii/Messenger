@@ -3,8 +3,8 @@
     - 메시지 입력 필드
     - 전송 버튼 */
 
-#include "chatlistwindow.h"
-#include "ui_chatlistwindow.h"
+#include "window_chatList.h"
+#include "ui_window_chatList.h"
 
 ChatListWindow::ChatListWindow(QWidget *parent)
     : QMainWindow(parent)

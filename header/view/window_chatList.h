@@ -1,5 +1,5 @@
-#ifndef CHATLISTWINDOW_H
-#define CHATLISTWINDOW_H
+#ifndef WINDOW_CHATLIST_H
+#define WINDOW_CHATLIST_H
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -31,7 +31,7 @@ private slots:
 
 };
 
-#endif // CHATLISTWINDOW_H
+#endif // WINDOW_CHATLIST_H
 
 
 

@@ -4,9 +4,9 @@
  * - 상태 표시줄
  */
 
-#include "mainwindow.h"
-#include "chatlistwindow.h"
-#include "ui_mainwindow.h"
+#include "window_main.h"
+#include "window_chatList.h"
+#include "ui_window_main.h"
 
 
 MainWindow::MainWindow(QWidget *parent)

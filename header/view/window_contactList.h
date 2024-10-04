@@ -1,5 +1,5 @@
-#ifndef CONTACTLISTWINDOW_H
-#define CONTACTLISTWINDOW_H
+#ifndef WINDOW_CONTACTLIST_H
+#define WINDOW_CONTACTLIST_H
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -25,4 +25,4 @@ private slots:
     void closeWindow();
 };
 
-#endif // CONTACTLISTWINDOW_H
+#endif // WINDOW_CONTACTLIST_H

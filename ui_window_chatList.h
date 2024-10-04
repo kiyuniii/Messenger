@@ -14,7 +14,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
 
@@ -25,7 +24,6 @@ class Ui_ChatListWindow
 public:
     QWidget *centralwidget;
     QLabel *label;
-    QPushButton *button_Close;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -38,10 +36,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(310, 100, 201, 71));
-        button_Close = new QPushButton(centralwidget);
-        button_Close->setObjectName("button_Close");
-        button_Close->setGeometry(QRect(320, 220, 151, 61));
+        label->setGeometry(QRect(260, 120, 201, 71));
         ChatListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ChatListWindow);
         menubar->setObjectName("menubar");
@@ -60,7 +55,6 @@ public:
     {
         ChatListWindow->setWindowTitle(QCoreApplication::translate("ChatListWindow", "MainWindow", nullptr));
         label->setText(QCoreApplication::translate("ChatListWindow", "Chat", nullptr));
-        button_Close->setText(QCoreApplication::translate("ChatListWindow", "Back", nullptr));
     } // retranslateUi
 
 };

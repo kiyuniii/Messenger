@@ -5,9 +5,9 @@
  * - PW 입력창
  */
 
-#include "loginwindow.h"
-#include "ui_loginwindow.h"
-#include "mainwindow.h"
+#include "window_login.h"
+#include "ui_window_login.h"
+#include "window_main.h"
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)

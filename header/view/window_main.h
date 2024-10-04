@@ -1,8 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef WINDOW_MAIN_H
+#define WINDOW_MAIN_H
 
-#include "chatlistwindow.h"
-#include "contactlistwindow.h"
+#include "window_chatList.h"
+#include "window_contactList.h"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -36,4 +36,4 @@ private slots:
     void open_SettingsWindow();
     */
 };
-#endif // MAINWINDOW_H
+#endif // WINDOW_MAIN_H

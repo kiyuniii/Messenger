@@ -5,33 +5,27 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 # 프로젝트에 포함할 include 경로 설정
-INCLUDEPATH += src/controller \
-               src/controller/header \
-               src/controller/source \
-               src/view
+INCLUDEPATH += header   \
+               header/model \
+               header/view  \
+               header/controller
 
 # 소스 파일
 SOURCES += \
     main.cpp \
-    src/controller/source/chatlistwindow.cpp \
-    src/controller/source/contactlistwindow.cpp \
-    src/controller/source/loginwindow.cpp \
-    src/controller/source/mainwindow.cpp
+    $$files($$PWD/source/model/*.cpp)   \
+    $$files($$PWD/source/view/*.cpp)   \
+    $$files($$PWD/source/controller/*.cpp)
 
 # 헤더 파일
 HEADERS += \
-    src/controller/header/chatlistwindow.h \
-    src/controller/header/contactlistwindow.h \
-    src/controller/header/loginwindow.h \
-    src/controller/header/mainwindow.h
+    $$files($$PWD/header/model/*.h)   \
+    $$files($$PWD/header/view/*.h)   \
+    $$files($$PWD/header/controller/*.h)
 
 # UI forms 파일
 FORMS += \
-    src/view/chatlistwindow.ui \
-    src/view/contactlistwindow.ui \
-    src/view/loginwindow.ui \
-    src/view/mainwindow.ui
-
+    $$files($$PWD/source/ui/*.ui)
 
 # MOC 파일을 저장할 디렉토리 (선택사항)
-# MOC_IDR = moc
+# MOC_DIR = moc

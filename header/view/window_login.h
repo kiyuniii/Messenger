@@ -1,7 +1,7 @@
-#ifndef LOGINWINDOW_H
-#define LOGINWINDOW_H
+#ifndef WINDOW_LOGIN_H
+#define WINDOW_LOGIN_H
 
-#include "mainwindow.h"
+#include "window_main.h"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -28,4 +28,4 @@ private slots:
     void openMainWindow();
 };
 
-#endif // LOGINWINDOW_H
+#endif // WINDOW_LOGIN_H
