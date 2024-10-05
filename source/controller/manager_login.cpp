@@ -1,8 +1,23 @@
 #include "manager_login.h"
 #include "model_login.h"
 
-LoginManager::LoginManager() { }
-LoginManager::~LoginManager() { }
+#include <iostream>
+#include <QDebug>
+
+LoginManager::LoginManager(QObject *parent)
+    : QObject(parent), loginModel(new LoginModel())
+{
+    loginModel = new LoginModel();
+    if(!loginModel->openDatabase()) {
+        qDebug() << "Error: Unable to open Database";
+    }
+
+    currentID = "";
+}
+
+LoginManager::~LoginManager() {
+    delete loginModel;
+}
 
 /* 로그인(세션 유지) */
 bool LoginManager::login(const QString& id, const QString& pw) {
@@ -10,7 +25,6 @@ bool LoginManager::login(const QString& id, const QString& pw) {
         currentID = id;
         return true;
     }
-    currentID = "";
     return false;
 }
 
@@ -21,6 +35,21 @@ bool LoginManager::logout() {
         return true;    //loggedIn
     }
     return false;       //loggedOut
+}
+
+/* 로그인 체크 */
+bool LoginManager::loginCheck(const QString& id, const QString& pw) {
+    bool loginSuccess = loginModel->authenticateUser(id, pw);
+
+    if(loginSuccess) {
+        std::cout << "로그인 성공!" << std::endl;
+        qDebug() << "Login Successful";
+        return true;
+    } else {
+        std::cout << "로그인 실패" << std::endl;
+        qDebug() << "Login Failed";
+        return false;
+    }
 }
 
 /* 회원 가입 */

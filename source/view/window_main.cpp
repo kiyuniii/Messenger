@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) //UI 객체 생성
 {
     ui->setupUi(this);      //.ui에 정의된 UI요소 초기화
-    connect(ui->button_ContactList, &QPushButton::clicked, this, &MainWindow::open_ContactListWindow);
-    connect(ui->button_ChatList, &QPushButton::clicked, this, &MainWindow::open_ChatListWindow);
+    connect(ui->button_contactList, &QPushButton::clicked, this, &MainWindow::open_ContactListWindow);
+    connect(ui->button_chatList, &QPushButton::clicked, this, &MainWindow::open_ChatListWindow);
 }
 
 MainWindow::~MainWindow()

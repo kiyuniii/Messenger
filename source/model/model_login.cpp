@@ -5,30 +5,35 @@
 #include <iostream>
 
 Login::Login(const QString& id, const QString& pw)
-    : ID(id), PW(pw) { }
+    : m_ID(id), m_PW(pw) { }
 
 QString Login::getID() const {
-    return ID;
+    return m_ID;
 }
 QString Login::getPW() const {
-    return PW;
+    return m_PW;
 }
 void Login::setID(const QString& id) {
-    ID = id;
+    m_ID = id;
 }
 void Login::setPW(const QString& pw) {
-    PW = pw;
+    m_PW = pw;
 }
 
-
+bool LoginModel::openDatabase() {
+    if(!db.open()) {
+        qDebug() << "Error: Fail to open Database";
+        return false;
+    }
+    return true;
+}
 
 LoginModel::LoginModel() {
+    // 데이터베이스 지정
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("login.db");
-    if(!db.open()) {
-        qDebug() << "Error: fail to open - login.db";
-    }
 }
+
 LoginModel::~LoginModel() {
     db.close();
 }

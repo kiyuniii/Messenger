@@ -17,30 +17,56 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="button_ContactList">
+   <widget class="QPushButton" name="button_contactList">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>50</y>
-      <width>111</width>
-      <height>61</height>
+      <x>20</x>
+      <y>950</y>
+      <width>155</width>
+      <height>80</height>
      </rect>
     </property>
     <property name="text">
-     <string>ContactList</string>
+     <string>연락처</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_ChatList">
+   <widget class="QPushButton" name="button_chatList">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>50</y>
-      <width>111</width>
-      <height>61</height>
+      <x>195</x>
+      <y>950</y>
+      <width>155</width>
+      <height>80</height>
      </rect>
     </property>
     <property name="text">
-     <string>ChatList</string>
+     <string>대화</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_groupChatList">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>950</y>
+      <width>155</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>회의</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_notice">
+    <property name="geometry">
+     <rect>
+      <x>545</x>
+      <y>950</y>
+      <width>155</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>공지</string>
     </property>
    </widget>
   </widget>

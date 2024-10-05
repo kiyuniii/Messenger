@@ -3,8 +3,10 @@
 
 #include "window_main.h"
 #include "window_register.h"
+#include "manager_login.h"
 #include <QMainWindow>
 #include <QPushButton>
+#include <QLineEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,9 +27,12 @@ private:
     MainWindow *mainWindow;
     RegisterWindow *registerWindow;
 
+    LoginManager *loginManager;
+
 private slots:
     void open_MainWindow();
     void open_RegisterWindow();
+    void clicked_loginButton();
 };
 
 #endif // WINDOW_LOGIN_H

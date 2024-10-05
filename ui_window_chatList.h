@@ -14,6 +14,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
 
@@ -23,7 +24,8 @@ class Ui_ChatListWindow
 {
 public:
     QWidget *centralwidget;
-    QLabel *label;
+    QLabel *label_title;
+    QPushButton *button_Close;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -34,9 +36,12 @@ public:
         ChatListWindow->resize(720, 1170);
         centralwidget = new QWidget(ChatListWindow);
         centralwidget->setObjectName("centralwidget");
-        label = new QLabel(centralwidget);
-        label->setObjectName("label");
-        label->setGeometry(QRect(260, 120, 201, 71));
+        label_title = new QLabel(centralwidget);
+        label_title->setObjectName("label_title");
+        label_title->setGeometry(QRect(110, 100, 500, 50));
+        button_Close = new QPushButton(centralwidget);
+        button_Close->setObjectName("button_Close");
+        button_Close->setGeometry(QRect(280, 220, 151, 61));
         ChatListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ChatListWindow);
         menubar->setObjectName("menubar");
@@ -54,7 +59,8 @@ public:
     void retranslateUi(QMainWindow *ChatListWindow)
     {
         ChatListWindow->setWindowTitle(QCoreApplication::translate("ChatListWindow", "MainWindow", nullptr));
-        label->setText(QCoreApplication::translate("ChatListWindow", "Chat", nullptr));
+        label_title->setText(QCoreApplication::translate("ChatListWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:28pt; font-weight:700;\">\355\232\214\354\233\220\352\260\200\354\236\205</span></p></body></html>", nullptr));
+        button_Close->setText(QCoreApplication::translate("ChatListWindow", "Back", nullptr));
     } // retranslateUi
 
 };

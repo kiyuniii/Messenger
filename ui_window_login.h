@@ -34,6 +34,7 @@ public:
     QPushButton *button_register;
     QLabel *label_ID;
     QLabel *label_PW;
+    QLabel *label_loginStatus;
     QMenuBar *menubar;
     QMenu *menuLogin;
     QStatusBar *statusbar;
@@ -76,6 +77,9 @@ public:
         label_PW = new QLabel(centralwidget);
         label_PW->setObjectName("label_PW");
         label_PW->setGeometry(QRect(110, 530, 80, 50));
+        label_loginStatus = new QLabel(centralwidget);
+        label_loginStatus->setObjectName("label_loginStatus");
+        label_loginStatus->setGeometry(QRect(190, 680, 400, 17));
         LoginWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(LoginWindow);
         menubar->setObjectName("menubar");
@@ -102,6 +106,7 @@ public:
         button_register->setText(QCoreApplication::translate("LoginWindow", "Register", nullptr));
         label_ID->setText(QCoreApplication::translate("LoginWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">ID</span></p></body></html>", nullptr));
         label_PW->setText(QCoreApplication::translate("LoginWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">PW</span></p></body></html>", nullptr));
+        label_loginStatus->setText(QCoreApplication::translate("LoginWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">TextLabel</span></p></body></html>", nullptr));
         menuLogin->setTitle(QCoreApplication::translate("LoginWindow", "\353\241\234\352\267\270\354\235\270", nullptr));
     } // retranslateUi
 

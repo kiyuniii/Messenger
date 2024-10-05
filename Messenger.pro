@@ -16,12 +16,16 @@ SOURCES += \
     $$files($$PWD/source/model/*.cpp)   \
     $$files($$PWD/source/view/*.cpp)   \
     $$files($$PWD/source/controller/*.cpp) \
+    source/controller/manager_register.cpp \
+    source/model/model_register.cpp
 
 # 헤더 파일
 HEADERS += \
     $$files($$PWD/header/model/*.h)   \
     $$files($$PWD/header/view/*.h)   \
     $$files($$PWD/header/controller/*.h) \
+    header/controller/manager_register.h \
+    header/model/model_register.h
 
 # UI forms 파일
 FORMS += \

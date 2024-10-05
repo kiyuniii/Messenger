@@ -3,19 +3,23 @@
 
 #include "model_login.h"
 
+#include <QObject>
 #include <QDebug>
 
 using namespace std;
 
 class Login;
 
-class LoginManager {
+class LoginManager : public QObject {
+    Q_OBJECT
+
 public:
-    LoginManager();
+    explicit LoginManager(QObject *parent = nullptr);
     ~LoginManager();
 
     bool login(const QString& id, const QString& pw);
     bool logout();
+    bool loginCheck(const QString& id, const QString& pw);
     bool registerUser(const QString& id, const QString& pw);
     bool isIDAvailable(const QString& id);
     bool resetPassword(const QString& id, const QString& pw);

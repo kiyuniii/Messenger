@@ -13,9 +13,18 @@ LoginWindow::LoginWindow(QWidget *parent)
     , ui(new Ui::LoginWindow)
     , mainWindow(nullptr)       //mainWindow 초기화
     , registerWindow(nullptr)
+    , loginManager(new LoginManager(this))
 {
     ui->setupUi(this);
-    connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::open_MainWindow);
+
+    /* LineEdit: ID 입력 */
+    ui->lineEdit_ID->setPlaceholderText("여기에 ID를 입력하세요");
+
+    /* LineEdit: PW 입력 */
+    ui->lineEdit_PW->setPlaceholderText("여기에 PW를 입력하세요");
+    ui->lineEdit_PW->setEchoMode(QLineEdit::Password);   //비밀번호 숨김처리
+
+    connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::clicked_loginButton);
     connect(ui->button_register, &QPushButton::clicked, this, &LoginWindow::open_RegisterWindow);
 }
 
@@ -40,5 +49,19 @@ void LoginWindow::open_RegisterWindow() {
     registerWindow->show();
 }
 
+void LoginWindow::clicked_loginButton() {
+    QString IDinput = ui->lineEdit_ID->text();
+    QString PWinput = ui->lineEdit_PW->text();
 
-//QObject::connect(sender, SIGNAL(signal()), receiver, SLOT(slot()));
+    if(loginManager->loginCheck(IDinput, PWinput)) {
+        qDebug() << "Login Successful";
+        open_MainWindow();
+    } else {
+        qDebug() << "Login Failed";
+        ui->label_loginStatus->setText("로그인 실패");
+    }
+
+}
+
+
+

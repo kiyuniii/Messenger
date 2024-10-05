@@ -14,8 +14,8 @@ public:
     void setPW(const QString& PWinput);
 
 private:
-    QString ID;
-    QString PW;
+    QString m_ID;
+    QString m_PW;
 };
 
 class LoginModel {
@@ -23,6 +23,7 @@ public:
     LoginModel();
     ~LoginModel();
 
+    bool openDatabase();
     bool addUser(const Login& login);
     bool authenticateUser(const QString& id, const QString& pw);
     bool isIDtaken(const QString& id);

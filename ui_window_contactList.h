@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -24,6 +25,7 @@ class Ui_ContactListWindow
 public:
     QWidget *centralwidget;
     QPushButton *button_Close;
+    QLabel *label_title;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -36,7 +38,10 @@ public:
         centralwidget->setObjectName("centralwidget");
         button_Close = new QPushButton(centralwidget);
         button_Close->setObjectName("button_Close");
-        button_Close->setGeometry(QRect(330, 240, 151, 61));
+        button_Close->setGeometry(QRect(280, 240, 151, 61));
+        label_title = new QLabel(centralwidget);
+        label_title->setObjectName("label_title");
+        label_title->setGeometry(QRect(110, 100, 500, 50));
         ContactListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ContactListWindow);
         menubar->setObjectName("menubar");
@@ -55,6 +60,7 @@ public:
     {
         ContactListWindow->setWindowTitle(QCoreApplication::translate("ContactListWindow", "MainWindow", nullptr));
         button_Close->setText(QCoreApplication::translate("ContactListWindow", "Back", nullptr));
+        label_title->setText(QCoreApplication::translate("ContactListWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:28pt; font-weight:700;\">\355\232\214\354\233\220\352\260\200\354\236\205</span></p></body></html>", nullptr));
     } // retranslateUi
 
 };
