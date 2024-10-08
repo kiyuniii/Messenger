@@ -69,7 +69,7 @@ bool LoginModel::authenticateUser(const QString& id, const QString& pw) {
     return false;
 }
 
-bool LoginModel::isIDtaken(const QString& id) {
+bool LoginModel::isIDTaken(const QString& id) {
     QSqlQuery query;
     query.prepare("SELECT COUNT(*) FROM login WHERE ID = ?");
 

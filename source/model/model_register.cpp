@@ -3,7 +3,7 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 
-_Register::_Register(const QString& name, const QString& phone, const QString& email, const int& year, const int& month, const int& day)
+_Register::_Register(const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day)
     : m_name(name), m_phone(phone), m_email(email), m_year(year), m_month(month), m_day(day) { }
 
 QString _Register::getName() const {
@@ -18,19 +18,19 @@ QString _Register::getEmail() const {
     return m_email;
 }
 
-int _Register::getYear() const {
+QString _Register::getYear() const {
     return m_year;
 }
 
-int _Register::getMonth() const {
+QString _Register::getMonth() const {
     return m_month;
 }
 
-int _Register::getDay() const {
+QString _Register::getDay() const {
     return m_day;
 }
 
-bool RegisterModel::openDatabsae() {
+bool RegisterModel::openDatabase() {
     if(!db.open()) {
         qDebug() << "Error: Fail to open Database";
         return false;
@@ -38,11 +38,15 @@ bool RegisterModel::openDatabsae() {
     return true;
 }
 
-void RegisterModel::addUser(const QString& name, const QString& phone, const QString& email, const int& year, const int& month, const int& day) {
+void RegisterModel::addUser(const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day) {
 
 }
 
-void updateUser(int flag, const QString& name, const QString& phone, const QString& email, const int& year, const int& month, const int& day) {
+void RegisterModel::updateUser(int flag, const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day) {
+
+}
+
+bool RegisterModel::isIDTaken(const QString& IDinput) {
 
 }
 

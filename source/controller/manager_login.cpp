@@ -9,7 +9,7 @@ LoginManager::LoginManager(QObject *parent)
 {
     loginModel = new LoginModel();
     if(!loginModel->openDatabase()) {
-        qDebug() << "Error: Unable to open Database";
+        qDebug() << "Error: Unable to open Database(login)";
     }
 
     currentID = "";
@@ -53,7 +53,7 @@ bool LoginManager::loginCheck(const QString& id, const QString& pw) {
 }
 
 /* 회원 가입 */
-bool LoginManager::registerUser(const QString& id, const QString& pw) {
+bool LoginManager::addLogin(const QString& id, const QString& pw) {
     if(isIDAvailable(id)) {
         return loginModel->addUser(Login(id, pw));
     }
@@ -62,7 +62,7 @@ bool LoginManager::registerUser(const QString& id, const QString& pw) {
 
 /* ID 중복확인 */
 bool LoginManager::isIDAvailable(const QString& id) {
-    return !loginModel->isIDtaken(id);
+    return !loginModel->isIDTaken(id);
 }
 
 /* 비밀번호 재설정 */

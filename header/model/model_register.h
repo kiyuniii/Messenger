@@ -6,19 +6,19 @@
 
 class _Register {
 public:
-    _Register(const QString& name, const QString& phone, const QString& email, const int& year, const int& month, const int& day);
+    _Register(const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day);
 
     QString getName() const;
     QString getPhone() const;
     QString getEmail() const;
-    int getYear() const;
-    int getMonth() const;
-    int getDay() const;
+    QString getYear() const;
+    QString getMonth() const;
+    QString getDay() const;
 private:
     QString m_name;
     QString m_phone;
     QString m_email;
-    int m_year, m_month, m_day;
+    QString m_year, m_month, m_day;
 };
 
 class RegisterModel {
@@ -26,9 +26,10 @@ public:
     RegisterModel();
     ~RegisterModel();
 
-    bool openDatabsae();
-    void addUser(const QString& name, const QString& phone, const QString& email, const int& year, const int& month, const int& day);
-    void updateUser(int flag, const QString& name, const QString& phone, const QString& email, const int& year, const int& month, const int& day);  //flag를 받고 뭘 update(변경)할 건지 선택
+    bool openDatabase();
+    void addUser(const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day);
+    void updateUser(int flag, const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day);  //flag를 받고 뭘 update(변경)할 건지 선택
+    bool isIDTaken(const QString& id);
 
 private:
     QSqlDatabase db;

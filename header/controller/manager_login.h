@@ -20,7 +20,7 @@ public:
     bool login(const QString& id, const QString& pw);
     bool logout();
     bool loginCheck(const QString& id, const QString& pw);
-    bool registerUser(const QString& id, const QString& pw);
+    bool addLogin(const QString& id, const QString& pw);
     bool isIDAvailable(const QString& id);
     bool resetPassword(const QString& id, const QString& pw);
 

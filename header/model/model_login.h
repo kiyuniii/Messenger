@@ -26,7 +26,7 @@ public:
     bool openDatabase();
     bool addUser(const Login& login);
     bool authenticateUser(const QString& id, const QString& pw);
-    bool isIDtaken(const QString& id);
+    bool isIDTaken(const QString& id);
     bool updatePassword(const QString& id, const QString& pw);
 
 private:

@@ -20,7 +20,7 @@ public:
     bool PWCheck(const QString& pw);
 
 private:
-
+    RegisterModel *registerModel;
 };
 
 #endif // MANAGER_REGISTER_H

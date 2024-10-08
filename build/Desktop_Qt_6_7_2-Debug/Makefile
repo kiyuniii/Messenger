@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-INCPATH       = -I../../../Messenger -I. -I../../src/controller -I../../src/controller/header -I../../src/controller/source -I../../src/view -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I. -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../../../Messenger -I. -I../../header -I../../header/model -I../../header/view -I../../header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I. -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/kiyun/Qt/6.7.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = Messenger1.0.0
 DISTDIR = /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/.tmp/Messenger1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/kiyun/Qt/6.7.2/gcc_64/lib -Wl,-rpath-link,/home/kiyun/Qt/6.7.2/gcc_64/lib
-LIBS          = $(SUBLIBS) /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Widgets.so /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Gui.so /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Core.so -lpthread -lGL   
+LIBS          = $(SUBLIBS) /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Widgets.so /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Gui.so /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Sql.so /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Core.so -lpthread -lGL   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -53,22 +53,46 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../main.cpp \
-		../../src/controller/source/chatlistwindow.cpp \
-		../../src/controller/source/contactlistwindow.cpp \
-		../../src/controller/source/loginwindow.cpp \
-		../../src/controller/source/mainwindow.cpp moc_chatlistwindow.cpp \
-		moc_contactlistwindow.cpp \
-		moc_loginwindow.cpp \
-		moc_mainwindow.cpp
+		../../source/model/model_chat.cpp \
+		../../source/model/model_login.cpp \
+		../../source/model/model_register.cpp \
+		../../source/view/dialog_register.cpp \
+		../../source/view/widget_contact.cpp \
+		../../source/view/window_chatList.cpp \
+		../../source/view/window_contactList.cpp \
+		../../source/view/window_login.cpp \
+		../../source/view/window_main.cpp \
+		../../source/controller/manager_chat.cpp \
+		../../source/controller/manager_login.cpp \
+		../../source/controller/manager_register.cpp moc_dialog_register.cpp \
+		moc_widget_contact.cpp \
+		moc_window_chatList.cpp \
+		moc_window_contactList.cpp \
+		moc_window_login.cpp \
+		moc_window_main.cpp \
+		moc_manager_login.cpp \
+		moc_manager_register.cpp
 OBJECTS       = main.o \
-		chatlistwindow.o \
-		contactlistwindow.o \
-		loginwindow.o \
-		mainwindow.o \
-		moc_chatlistwindow.o \
-		moc_contactlistwindow.o \
-		moc_loginwindow.o \
-		moc_mainwindow.o
+		model_chat.o \
+		model_login.o \
+		model_register.o \
+		dialog_register.o \
+		widget_contact.o \
+		window_chatList.o \
+		window_contactList.o \
+		window_login.o \
+		window_main.o \
+		manager_chat.o \
+		manager_login.o \
+		manager_register.o \
+		moc_dialog_register.o \
+		moc_widget_contact.o \
+		moc_window_chatList.o \
+		moc_window_contactList.o \
+		moc_window_login.o \
+		moc_window_main.o \
+		moc_manager_login.o \
+		moc_manager_register.o
 DIST          = /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/common/unix.conf \
 		/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/common/linux.conf \
@@ -413,14 +437,31 @@ DIST          = /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/exceptions.prf \
 		/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/lex.prf \
-		../../../../Messenger.pro ../../src/controller/header/chatlistwindow.h \
-		../../src/controller/header/contactlistwindow.h \
-		../../src/controller/header/loginwindow.h \
-		../../src/controller/header/mainwindow.h ../../main.cpp \
-		../../src/controller/source/chatlistwindow.cpp \
-		../../src/controller/source/contactlistwindow.cpp \
-		../../src/controller/source/loginwindow.cpp \
-		../../src/controller/source/mainwindow.cpp
+		../../../../Messenger.pro ../../header/model/model_chat.h \
+		../../header/model/model_login.h \
+		../../header/model/model_register.h \
+		../../header/view/dialog_contact.h \
+		../../header/view/dialog_register.h \
+		../../header/view/widget_contact.h \
+		../../header/view/window_chatList.h \
+		../../header/view/window_contactList.h \
+		../../header/view/window_login.h \
+		../../header/view/window_main.h \
+		../../header/controller/manager_chat.h \
+		../../header/controller/manager_login.h \
+		../../header/controller/manager_register.h ../../main.cpp \
+		../../source/model/model_chat.cpp \
+		../../source/model/model_login.cpp \
+		../../source/model/model_register.cpp \
+		../../source/view/dialog_register.cpp \
+		../../source/view/widget_contact.cpp \
+		../../source/view/window_chatList.cpp \
+		../../source/view/window_contactList.cpp \
+		../../source/view/window_login.cpp \
+		../../source/view/window_main.cpp \
+		../../source/controller/manager_chat.cpp \
+		../../source/controller/manager_login.cpp \
+		../../source/controller/manager_register.cpp
 QMAKE_TARGET  = Messenger
 DESTDIR       = 
 TARGET        = Messenger
@@ -429,7 +470,7 @@ TARGET        = Messenger
 first: all
 ####### Build rules
 
-Messenger: ui_chatlistwindow.h ui_contactlistwindow.h ui_loginwindow.h ui_mainwindow.h $(OBJECTS)  
+Messenger: ui_dialog_register.h ui_window_chatList.h ui_window_contactList.h ui_window_login.h ui_window_main.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../../Messenger.pro /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++/qmake.conf /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
@@ -779,6 +820,7 @@ Makefile: ../../Messenger.pro /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++/qmak
 		../../Messenger.pro \
 		/home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Widgets.prl \
 		/home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Gui.prl \
+		/home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Sql.prl \
 		/home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Core.prl
 	$(QMAKE) -o Makefile ../../Messenger.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf:
@@ -1128,6 +1170,7 @@ Makefile: ../../Messenger.pro /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++/qmak
 ../../Messenger.pro:
 /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Widgets.prl:
 /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Gui.prl:
+/home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Sql.prl:
 /home/kiyun/Qt/6.7.2/gcc_64/lib/libQt6Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../../Messenger.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -1144,9 +1187,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../src/controller/header/chatlistwindow.h ../../src/controller/header/contactlistwindow.h ../../src/controller/header/loginwindow.h ../../src/controller/header/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../src/controller/source/chatlistwindow.cpp ../../src/controller/source/contactlistwindow.cpp ../../src/controller/source/loginwindow.cpp ../../src/controller/source/mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../src/view/chatlistwindow.ui ../../src/view/contactlistwindow.ui ../../src/view/loginwindow.ui ../../src/view/mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../header/model/model_chat.h ../../header/model/model_login.h ../../header/model/model_register.h ../../header/view/dialog_contact.h ../../header/view/dialog_register.h ../../header/view/widget_contact.h ../../header/view/window_chatList.h ../../header/view/window_contactList.h ../../header/view/window_login.h ../../header/view/window_main.h ../../header/controller/manager_chat.h ../../header/controller/manager_login.h ../../header/controller/manager_register.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../source/model/model_chat.cpp ../../source/model/model_login.cpp ../../source/model/model_register.cpp ../../source/view/dialog_register.cpp ../../source/view/widget_contact.cpp ../../source/view/window_chatList.cpp ../../source/view/window_contactList.cpp ../../source/view/window_login.cpp ../../source/view/window_main.cpp ../../source/controller/manager_chat.cpp ../../source/controller/manager_login.cpp ../../source/controller/manager_register.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../source/ui/dialog_register.ui ../../source/ui/window_chatList.ui ../../source/ui/window_contactList.ui ../../source/ui/window_login.ui ../../source/ui/window_main.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1177,10 +1220,444 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_chatlistwindow.cpp moc_contactlistwindow.cpp moc_loginwindow.cpp moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_dialog_register.cpp moc_widget_contact.cpp moc_window_chatList.cpp moc_window_contactList.cpp moc_window_login.cpp moc_window_main.cpp moc_manager_login.cpp moc_manager_register.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_chatlistwindow.cpp moc_contactlistwindow.cpp moc_loginwindow.cpp moc_mainwindow.cpp
-moc_chatlistwindow.cpp: ../../src/controller/header/chatlistwindow.h \
+	-$(DEL_FILE) moc_dialog_register.cpp moc_widget_contact.cpp moc_window_chatList.cpp moc_window_contactList.cpp moc_window_login.cpp moc_window_main.cpp moc_manager_login.cpp moc_manager_register.cpp
+moc_dialog_register.cpp: ../../header/view/dialog_register.h \
+		../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QList \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
+		moc_predefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/dialog_register.h -o moc_dialog_register.cpp
+
+moc_widget_contact.cpp: ../../header/view/widget_contact.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QList \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QFrame \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLabel \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpicture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMessageBox \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
+		moc_predefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/widget_contact.h -o moc_widget_contact.cpp
+
+moc_window_chatList.cpp: ../../header/view/window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1374,9 +1851,9 @@ moc_chatlistwindow.cpp: ../../src/controller/header/chatlistwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
 		moc_predefs.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/src/controller -I/home/kiyun/paper/projects/Messenger/src/controller/header -I/home/kiyun/paper/projects/Messenger/src/controller/source -I/home/kiyun/paper/projects/Messenger/src/view -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/controller/header/chatlistwindow.h -o moc_chatlistwindow.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/window_chatList.h -o moc_window_chatList.cpp
 
-moc_contactlistwindow.cpp: ../../src/controller/header/contactlistwindow.h \
+moc_window_contactList.cpp: ../../header/view/window_contactList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1567,13 +2044,23 @@ moc_contactlistwindow.cpp: ../../src/controller/header/contactlistwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		moc_predefs.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/src/controller -I/home/kiyun/paper/projects/Messenger/src/controller/header -I/home/kiyun/paper/projects/Messenger/src/controller/source -I/home/kiyun/paper/projects/Messenger/src/view -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/controller/header/contactlistwindow.h -o moc_contactlistwindow.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/window_contactList.h -o moc_window_contactList.cpp
 
-moc_loginwindow.cpp: ../../src/controller/header/loginwindow.h \
-		../../src/controller/header/mainwindow.h \
-		../../src/controller/header/contactlistwindow.h \
+moc_window_login.cpp: ../../header/view/window_login.h \
+		../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1764,12 +2251,43 @@ moc_loginwindow.cpp: ../../src/controller/header/loginwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../header/view/dialog_register.h \
+		../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
+		../../header/controller/manager_login.h \
+		../../header/model/model_login.h \
 		moc_predefs.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/src/controller -I/home/kiyun/paper/projects/Messenger/src/controller/header -I/home/kiyun/paper/projects/Messenger/src/controller/source -I/home/kiyun/paper/projects/Messenger/src/view -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/controller/header/loginwindow.h -o moc_loginwindow.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/window_login.h -o moc_window_login.cpp
 
-moc_mainwindow.cpp: ../../src/controller/header/mainwindow.h \
-		../../src/controller/header/contactlistwindow.h \
+moc_window_main.cpp: ../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1960,32 +2478,293 @@ moc_mainwindow.cpp: ../../src/controller/header/mainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		moc_predefs.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/src/controller -I/home/kiyun/paper/projects/Messenger/src/controller/header -I/home/kiyun/paper/projects/Messenger/src/controller/source -I/home/kiyun/paper/projects/Messenger/src/view -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/controller/header/mainwindow.h -o moc_mainwindow.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/window_main.h -o moc_window_main.cpp
+
+moc_manager_login.cpp: ../../header/controller/manager_login.h \
+		../../header/model/model_login.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		moc_predefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/controller/manager_login.h -o moc_manager_login.cpp
+
+moc_manager_register.cpp: ../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		moc_predefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/controller/manager_register.h -o moc_manager_register.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_chatlistwindow.h ui_contactlistwindow.h ui_loginwindow.h ui_mainwindow.h
+compiler_uic_make_all: ui_dialog_register.h ui_window_chatList.h ui_window_contactList.h ui_window_login.h ui_window_main.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_chatlistwindow.h ui_contactlistwindow.h ui_loginwindow.h ui_mainwindow.h
-ui_chatlistwindow.h: ../../src/view/chatlistwindow.ui \
+	-$(DEL_FILE) ui_dialog_register.h ui_window_chatList.h ui_window_contactList.h ui_window_login.h ui_window_main.h
+ui_dialog_register.h: ../../source/ui/dialog_register.ui \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../src/view/chatlistwindow.ui -o ui_chatlistwindow.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../source/ui/dialog_register.ui -o ui_dialog_register.h
 
-ui_contactlistwindow.h: ../../src/view/contactlistwindow.ui \
+ui_window_chatList.h: ../../source/ui/window_chatList.ui \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../src/view/contactlistwindow.ui -o ui_contactlistwindow.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../source/ui/window_chatList.ui -o ui_window_chatList.h
 
-ui_loginwindow.h: ../../src/view/loginwindow.ui \
+ui_window_contactList.h: ../../source/ui/window_contactList.ui \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../src/view/loginwindow.ui -o ui_loginwindow.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../source/ui/window_contactList.ui -o ui_window_contactList.h
 
-ui_mainwindow.h: ../../src/view/mainwindow.ui \
+ui_window_login.h: ../../source/ui/window_login.ui \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../src/view/mainwindow.ui -o ui_mainwindow.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../source/ui/window_login.ui -o ui_window_login.h
+
+ui_window_main.h: ../../source/ui/window_main.ui \
+		/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic ../../source/ui/window_main.ui -o ui_window_main.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -1997,203 +2776,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: ../../main.cpp ../../src/controller/header/mainwindow.h \
-		../../src/controller/header/contactlistwindow.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qline.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QList \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QRect \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSize \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QTransform \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
-
-chatlistwindow.o: ../../src/controller/source/chatlistwindow.cpp ../../src/controller/header/chatlistwindow.h \
+main.o: ../../main.cpp ../../header/view/window_login.h \
+		../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2385,7 +2970,917 @@ chatlistwindow.o: ../../src/controller/source/chatlistwindow.cpp ../../src/contr
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
-		../../ui_chatlistwindow.h \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../header/view/dialog_register.h \
+		../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
+		../../header/controller/manager_login.h \
+		../../header/model/model_login.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
+
+model_chat.o: ../../source/model/model_chat.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model_chat.o ../../source/model/model_chat.cpp
+
+model_login.o: ../../source/model/model_login.cpp ../../header/model/model_login.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlQuery \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqlquery.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlError \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqlerror.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model_login.o ../../source/model/model_login.cpp
+
+model_register.o: ../../source/model/model_register.cpp ../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlQuery \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqlquery.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlError \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqlerror.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model_register.o ../../source/model/model_register.cpp
+
+dialog_register.o: ../../source/view/dialog_register.cpp ../../header/view/dialog_register.h \
+		../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QList \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
+		ui_dialog_register.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialog_register.o ../../source/view/dialog_register.cpp
+
+widget_contact.o: ../../source/view/widget_contact.cpp ../../header/view/widget_contact.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QList \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QFrame \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLabel \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpicture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMessageBox \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget_contact.o ../../source/view/widget_contact.cpp
+
+window_chatList.o: ../../source/view/window_chatList.cpp ../../header/view/window_chatList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QList \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		../../ui_window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h \
@@ -2399,9 +3894,9 @@ chatlistwindow.o: ../../src/controller/source/chatlistwindow.cpp ../../src/contr
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmenu.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QStatusBar \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstatusbar.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chatlistwindow.o ../../src/controller/source/chatlistwindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_chatList.o ../../source/view/window_chatList.cpp
 
-contactlistwindow.o: ../../src/controller/source/contactlistwindow.cpp ../../src/controller/header/contactlistwindow.h \
+window_contactList.o: ../../source/view/window_contactList.cpp ../../header/view/window_contactList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2592,21 +4087,42 @@ contactlistwindow.o: ../../src/controller/source/contactlistwindow.cpp ../../src
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../ui_contactlistwindow.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../ui_window_contactList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QGridLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLabel \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpicture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMenuBar \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmenubar.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmenu.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QStatusBar \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o contactlistwindow.o ../../src/controller/source/contactlistwindow.cpp
+		../../header/view/widget_contact.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QFrame \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMessageBox \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialogbuttonbox.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_contactList.o ../../source/view/window_contactList.cpp
 
-loginwindow.o: ../../src/controller/source/loginwindow.cpp ../../src/controller/header/loginwindow.h \
-		../../src/controller/header/mainwindow.h \
-		../../src/controller/header/contactlistwindow.h \
+window_login.o: ../../source/view/window_login.cpp ../../header/view/window_login.h \
+		../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2797,30 +4313,58 @@ loginwindow.o: ../../src/controller/source/loginwindow.cpp ../../src/controller/
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../ui_loginwindow.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QAction \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../header/view/dialog_register.h \
+		../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlineedit.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextcursor.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextdocument.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
+		../../header/controller/manager_login.h \
+		../../header/model/model_login.h \
+		../../ui_window_login.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QAction \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QGridLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLabel \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpicture.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMenu \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmenu.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMenuBar \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmenubar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QSpacerItem \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QStatusBar \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o loginwindow.o ../../src/controller/source/loginwindow.cpp
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstatusbar.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_login.o ../../source/view/window_login.cpp
 
-mainwindow.o: ../../src/controller/source/mainwindow.cpp ../../src/controller/header/mainwindow.h \
-		../../src/controller/header/contactlistwindow.h \
+window_main.o: ../../source/view/window_main.cpp ../../header/view/window_main.h \
+		../../header/view/window_chatList.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3011,9 +4555,18 @@ mainwindow.o: ../../src/controller/source/mainwindow.cpp ../../src/controller/he
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../src/controller/header/chatlistwindow.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QWidget \
-		../../ui_mainwindow.h \
+		../../header/view/window_contactList.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QScrollArea \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../ui_window_main.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h \
@@ -3022,19 +4575,276 @@ mainwindow.o: ../../src/controller/source/mainwindow.cpp ../../src/controller/he
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qmenu.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QStatusBar \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstatusbar.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../src/controller/source/mainwindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_main.o ../../source/view/window_main.cpp
 
-moc_chatlistwindow.o: moc_chatlistwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_chatlistwindow.o moc_chatlistwindow.cpp
+manager_chat.o: ../../source/controller/manager_chat.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_chat.o ../../source/controller/manager_chat.cpp
 
-moc_contactlistwindow.o: moc_contactlistwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_contactlistwindow.o moc_contactlistwindow.cpp
+manager_login.o: ../../source/controller/manager_login.cpp ../../header/controller/manager_login.h \
+		../../header/model/model_login.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_login.o ../../source/controller/manager_login.cpp
 
-moc_loginwindow.o: moc_loginwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_loginwindow.o moc_loginwindow.cpp
+manager_register.o: ../../source/controller/manager_register.cpp ../../header/controller/manager_register.h \
+		../../header/model/model_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_register.o ../../source/controller/manager_register.cpp
 
-moc_mainwindow.o: moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+moc_dialog_register.o: moc_dialog_register.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialog_register.o moc_dialog_register.cpp
+
+moc_widget_contact.o: moc_widget_contact.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_widget_contact.o moc_widget_contact.cpp
+
+moc_window_chatList.o: moc_window_chatList.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window_chatList.o moc_window_chatList.cpp
+
+moc_window_contactList.o: moc_window_contactList.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window_contactList.o moc_window_contactList.cpp
+
+moc_window_login.o: moc_window_login.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window_login.o moc_window_login.cpp
+
+moc_window_main.o: moc_window_main.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window_main.o moc_window_main.cpp
+
+moc_manager_login.o: moc_manager_login.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_manager_login.o moc_manager_login.cpp
+
+moc_manager_register.o: moc_manager_register.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_manager_register.o moc_manager_register.cpp
 
 ####### Install
 

@@ -2,7 +2,7 @@
 #define WINDOW_LOGIN_H
 
 #include "window_main.h"
-#include "window_register.h"
+#include "dialog_register.h"
 #include "manager_login.h"
 #include <QMainWindow>
 #include <QPushButton>
@@ -25,14 +25,15 @@ public:
 private:
     Ui::LoginWindow *ui;
     MainWindow *mainWindow;
-    RegisterWindow *registerWindow;
+    RegisterDialog *registerDialog;
 
     LoginManager *loginManager;
 
 private slots:
     void open_MainWindow();
-    void open_RegisterWindow();
+    void open_RegisterDialog();
     void clicked_loginButton();
+    void clicked_registerButton();
 };
 
 #endif // WINDOW_LOGIN_H

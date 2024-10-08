@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QWidget>
+#include <QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,8 +23,13 @@ public:
 
 private:
     Ui::ContactListWindow *ui;
+    QScrollArea *scrollArea = new QScrollArea(this);
+    QWidget *containerWidget = new QWidget();
+    QVBoxLayout *layout = new QVBoxLayout(containerWidget);
+    int profileCount;
 
 private slots:
+    void addProfile();
     void closeWindow();
 };
 
