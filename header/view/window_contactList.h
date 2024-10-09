@@ -18,7 +18,7 @@ class ContactListWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ContactListWindow(QWidget *parent = nullptr);
+    explicit ContactListWindow(QWidget *parent = nullptr);  //QWidget이 QMainWindow의 부모 클래스이므로 QMainWindow로 작성할 필요 없다.
     ~ContactListWindow();
 
 private:

@@ -1,6 +1,7 @@
 #ifndef DIALOG_REGISTER_H
 #define DIALOG_REGISTER_H
 
+
 #include "window_main.h"
 #include "manager_register.h"
 
@@ -26,16 +27,26 @@ public:
 
 private:
     Ui::RegisterDialog *ui;
-    MainWindow *mainWindow;
+    Login *newLogin;
+    User *newUser;
 
+    MainWindow *mainWindow;
     RegisterManager *registerManager;
 
+signals:
+    void registerCompleted();
 
 private slots:
+    void set_userData();
+    void update_userData();
     void clicked_isIDTaken();
+    void clicked_register();
     void check_isPWSame();
-    //void save_RegisterData();
-    int daysComboBox(int year, int month);
+    //int daysComboBox(int year, int month);
+    void open_mainWindow();
+
+    QString sum_email(QString address, QString domain);
+    QString sum_birth(QString year, QString month, QString day);
 };
 
 #endif // DIALOG_REGISTER_H

@@ -24,8 +24,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::open_ContactListWindow() {
-    this->hide();       //mainWindow 객체를 숨김
-                        //이 구문 생략하면 mainWindow 객체는 그대로 떠있고 새로운 창이 뜸
+    this->hide();
     qDebug() << "openChatButton clicked!";
     contactListWindow = new ContactListWindow(this);
     contactListWindow->show();

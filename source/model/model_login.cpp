@@ -20,52 +20,126 @@ void Login::setPW(const QString& pw) {
     m_PW = pw;
 }
 
-bool LoginModel::openDatabase() {
-    if(!db.open()) {
-        qDebug() << "Error: Fail to open Database";
-        return false;
-    }
-    return true;
-}
-
-LoginModel::LoginModel() {
-    // 데이터베이스 지정
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("login.db");
-}
+LoginModel::LoginModel() { }
 
 LoginModel::~LoginModel() {
     db.close();
 }
 
-bool LoginModel::addUser(const Login& login) {
-    //Query : 데이터베이스 등에서 원하는 정보를 검색하기 위해 요청하는 것
-    /* 데이터베이스에서 새 사용자를 삽입하는 SQL 쿼리 준비 */
-    QSqlQuery query;    //SQL 쿼리를 위한 객체
+bool LoginModel::open_database(){
+
+    /* QSqlDatabase::addDatabase("[DRIVER]", "CONNECTION_NAME" */
+
+    /*
+     * if(QSqlDatabase::contains("info_connection")) {
+        db = QSqlDatabase::database("info_connection");
+    } else {
+        db = QSqlDatabase::addDatabase("QSQLITE", "info_connection");
+        db.setDatabaseName("info.db");
+    }*/
+
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("info.db");
+
+    if(!db.open()) {
+        qDebug() << "Error: model_login/open_database" << db.lastError();
+        return false;
+    }
+
+    // login 테이블이 존재하지 않으면 생성
+    QSqlQuery query;
+    query.exec("CREATE TABLE IF NOT EXISTS login ("
+               "id TEXT, "
+               "pw TEXT)");
+
+
+    // 테이블 생성 실패 시 오류 출력
+    if (query.lastError().isValid()) {
+        qDebug() << "Error: model_login.cpp/create_login_table" << query.lastError();
+        return false;
+    }
+
+    qDebug() << "Done: model_login.cpp/open_database";
+    return true;
+}
+
+void LoginModel::close_database() {
+    db.close();
+}
+
+bool LoginModel::create_login(const Login& login) {
+    QSqlQuery query;
     query.prepare("INSERT INTO login (id, pw) VALUES (?, ?)");
 
     query.addBindValue(login.getID());
-    query.addBindValue(login.getID());
+    query.addBindValue(login.getPW());
 
     if(query.exec()) {
-        return true;    //쿼리 실행 성공
+        qDebug() << "Done: model_login.cpp/create_login";
+        return true;
     } else {
-        qDebug() << "Error: fail to add user in DB" << query.lastError();
+        qDebug() << "Error: model_login.cpp/create_login" << query.lastError();
         return false;
     }
 }
 
-bool LoginModel::authenticateUser(const QString& id, const QString& pw) {
+/* 검색 : ID로 검색 */
+Login read_login(const Login& login) {
     QSqlQuery query;
-    query.prepare("SELECT id FROM login WHERE username = ? AND password = ?");
+    query.prepare("SELECT id, pw FROM login WHERE id = ?");
+    query.addBindValue(login.getID());
 
-    query.addBindValue(id); //첫번째 물음표
-    query.addBindValue(pw); //두번째 물음표
+    if (query.exec() && query.next()) {
+        QString fetchedID = query.value(0).toString();
+        QString fetchedPW = query.value(1).toString();
+        qDebug() << "Done: model_login.cpp/read_login";
+        return Login(fetchedID, fetchedPW);
+    } else {
+        qDebug() << "Error: model_login.cpp/read_login" << query.lastError();
+        return Login("", "");  // 빈 객체 반환
+    }
+}
+
+/* 수정: */
+void LoginModel::update_login(Login& login) {
+    QSqlQuery query;
+    query.prepare("UPDATE login SET password = ? WHERE username = ?");
+    query.addBindValue(login.getPW());
+    query.addBindValue(login.getID());
+
+    if(query.exec()) {
+        qDebug() << "Done: model_login.cpp/update_login";
+    } else {
+        qDebug() << "Error: model_login.cpp/update_login" << query.lastError();
+    }
+}
+
+/* 삭제: 검색(ID) */
+void LoginModel::delete_login(const Login& login) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM login WHERE id = ?");
+    query.addBindValue(login.getID());
+
+    if(query.exec()) {
+        qDebug() << "Done: model_login.cpp/delete_login";
+    } else {
+        qDebug() << "Error: model_login.cpp/delete_login" << query.lastError();
+    }
+}
+
+bool LoginModel::verify_login(const Login& login) {
+    QSqlQuery query;
+    query.prepare("SELECT id FROM login WHERE id = ? AND pw = ?");
+
+    query.addBindValue(login.getID()); //첫번째 물음표
+    query.addBindValue(login.getPW()); //두번째 물음표
 
     if(query.exec() && query.next()) {  //쿼리: exec(실행), next(결과있으면 true반환)
-        std::cout << "Welcome: " << id.toStdString() << std::endl;
+        std::cout << "Welcome: " << login.getID().toStdString() << std::endl;
+        qDebug() << "model_login.cpp/verify_login >> Login Successful";
         return true;
     }
+    qDebug() << "model_login.cpp/verify_login >> Login Failed";
     return false;
 }
 
@@ -81,17 +155,7 @@ bool LoginModel::isIDTaken(const QString& id) {
     return false;
 }
 
-
-bool LoginModel::updatePassword(const QString& id, const QString& newPw) {
-    QSqlQuery query;
-    query.prepare("UPDATE login SET password = ? WHERE username = ?");
-    query.addBindValue(newPw);
-    query.addBindValue(id);
-
-    if(query.exec()) {
-        return true;    //비밀번호 업데이트 성공
-    } else {
-        qDebug() << "Error: Failed to update password: " << query.lastError();
-        return false;
-    }
+void LoginModelcheckAvailableDrivers() {
+    qDebug() << "Available SQL drivers:" << QSqlDatabase::drivers();
 }
+

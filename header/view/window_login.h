@@ -4,6 +4,7 @@
 #include "window_main.h"
 #include "dialog_register.h"
 #include "manager_login.h"
+
 #include <QMainWindow>
 #include <QPushButton>
 #include <QLineEdit>
@@ -34,6 +35,7 @@ private slots:
     void open_RegisterDialog();
     void clicked_loginButton();
     void clicked_registerButton();
+    //void on_registerCompleted();    //슬롯_RegisterDialog::registerCompleted()
 };
 
 #endif // WINDOW_LOGIN_H

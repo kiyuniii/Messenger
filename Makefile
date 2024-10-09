@@ -1426,13 +1426,14 @@ moc_dialog_register.cpp: header/view/dialog_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -2262,13 +2263,14 @@ moc_window_login.cpp: header/view/window_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		header/view/dialog_register.h \
 		header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -2279,7 +2281,6 @@ moc_window_login.cpp: header/view/window_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		header/controller/manager_login.h \
-		header/model/model_login.h \
 		moc_predefs.h \
 		../../../Qt/6.7.2/gcc_64/libexec/moc
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/window_login.h -o moc_window_login.cpp
@@ -2615,7 +2616,7 @@ moc_manager_login.cpp: header/controller/manager_login.h \
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/controller/manager_login.h -o moc_manager_login.cpp
 
 moc_manager_register.cpp: header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
@@ -2728,6 +2729,7 @@ moc_manager_register.cpp: header/controller/manager_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
@@ -2980,13 +2982,14 @@ main.o: main.cpp header/view/window_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		header/view/dialog_register.h \
 		header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -2997,7 +3000,6 @@ main.o: main.cpp header/view/window_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		header/controller/manager_login.h \
-		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -3460,13 +3462,14 @@ dialog_register.o: source/view/dialog_register.cpp header/view/dialog_register.h
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -4302,13 +4305,14 @@ window_login.o: source/view/window_login.cpp header/view/window_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		header/view/dialog_register.h \
 		header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -4319,7 +4323,6 @@ window_login.o: source/view/window_login.cpp header/view/window_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		header/controller/manager_login.h \
-		header/model/model_login.h \
 		ui_window_login.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_login.o source/view/window_login.cpp
 
@@ -4654,7 +4657,7 @@ manager_login.o: source/controller/manager_login.cpp header/controller/manager_l
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_login.o source/controller/manager_login.cpp
 
 manager_register.o: source/controller/manager_register.cpp header/controller/manager_register.h \
-		header/model/model_register.h \
+		header/model/model_login.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
@@ -4767,6 +4770,7 @@ manager_register.o: source/controller/manager_register.cpp header/controller/man
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/model/model_register.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
 		../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \

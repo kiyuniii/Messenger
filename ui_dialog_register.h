@@ -61,7 +61,6 @@ public:
     QVBoxLayout *verticalLayout_3;
     QLabel *label_9;
     QHBoxLayout *horizontalLayout_4;
-    QSpacerItem *horizontalSpacer_4;
     QLineEdit *lineEdit_year;
     QLabel *label_year;
     QSpacerItem *horizontalSpacer_2;
@@ -71,6 +70,9 @@ public:
     QComboBox *comboBox_day;
     QLabel *label_day;
     QSpacerItem *horizontalSpacer_5;
+    QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_4;
+    QPushButton *button_register;
     QLabel *label_title;
 
     void setupUi(QDialog *RegisterDialog)
@@ -87,7 +89,7 @@ public:
         gridLayout_2->setObjectName("gridLayout_2");
         gridLayout = new QGridLayout();
         gridLayout->setObjectName("gridLayout");
-        gridLayout->setContentsMargins(70, 20, 70, 20);
+        gridLayout->setContentsMargins(120, 20, 120, 20);
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(20, 20, 20, 20);
@@ -285,10 +287,6 @@ public:
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName("horizontalLayout_4");
-        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
-
-        horizontalLayout_4->addItem(horizontalSpacer_4);
-
         lineEdit_year = new QLineEdit(RegisterDialog);
         lineEdit_year->setObjectName("lineEdit_year");
         lineEdit_year->setMinimumSize(QSize(0, 50));
@@ -305,7 +303,7 @@ public:
 
         horizontalLayout_4->addWidget(label_year);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 0, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(30, 0, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
 
         horizontalLayout_4->addItem(horizontalSpacer_2);
 
@@ -320,7 +318,7 @@ public:
 
         horizontalLayout_4->addWidget(label_month);
 
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
+        horizontalSpacer_3 = new QSpacerItem(30, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
 
         horizontalLayout_4->addItem(horizontalSpacer_3);
 
@@ -344,6 +342,22 @@ public:
 
 
         verticalLayout_2->addLayout(verticalLayout_3);
+
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName("horizontalLayout_6");
+        horizontalLayout_6->setContentsMargins(-1, 30, -1, -1);
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_4);
+
+        button_register = new QPushButton(RegisterDialog);
+        button_register->setObjectName("button_register");
+        button_register->setMinimumSize(QSize(0, 40));
+
+        horizontalLayout_6->addWidget(button_register);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_6);
 
 
         gridLayout->addLayout(verticalLayout_2, 3, 0, 1, 1);
@@ -385,6 +399,7 @@ public:
         label_year->setText(QCoreApplication::translate("RegisterDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">\353\205\204</span></p></body></html>", nullptr));
         label_month->setText(QCoreApplication::translate("RegisterDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">\354\233\224</span></p></body></html>", nullptr));
         label_day->setText(QCoreApplication::translate("RegisterDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">\354\235\274</span></p></body></html>", nullptr));
+        button_register->setText(QCoreApplication::translate("RegisterDialog", "\355\232\214\354\233\220\352\260\200\354\236\205", nullptr));
         label_title->setText(QCoreApplication::translate("RegisterDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">\355\232\214\354\233\220\352\260\200\354\236\205</span></p></body></html>", nullptr));
     } // retranslateUi
 

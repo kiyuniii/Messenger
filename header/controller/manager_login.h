@@ -17,12 +17,11 @@ public:
     explicit LoginManager(QObject *parent = nullptr);
     ~LoginManager();
 
-    bool login(const QString& id, const QString& pw);
+    bool login(Login& login);
     bool logout();
-    bool loginCheck(const QString& id, const QString& pw);
-    bool addLogin(const QString& id, const QString& pw);
-    bool isIDAvailable(const QString& id);
-    bool resetPassword(const QString& id, const QString& pw);
+    //bool reset_PW(const Login& login);
+    //bool add_loginData(const QString& id, const QString& pw);
+    //bool isIDAvailable(const QString& id);
 
     QString getCurrentID() const;
     bool isLoggedIn() const;    //로그인여부 -> 세션 유지여부

@@ -23,13 +23,13 @@
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
      <property name="leftMargin">
-      <number>70</number>
+      <number>120</number>
      </property>
      <property name="topMargin">
       <number>20</number>
      </property>
      <property name="rightMargin">
-      <number>70</number>
+      <number>120</number>
      </property>
      <property name="bottomMargin">
       <number>20</number>
@@ -338,22 +338,6 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Policy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
             <widget class="QLineEdit" name="lineEdit_year">
              <property name="minimumSize">
               <size>
@@ -387,7 +371,7 @@
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>40</width>
+               <width>30</width>
                <height>0</height>
               </size>
              </property>
@@ -420,7 +404,7 @@
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>40</width>
+               <width>30</width>
                <height>20</height>
               </size>
              </property>
@@ -460,6 +444,39 @@
             </spacer>
            </item>
           </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="topMargin">
+          <number>30</number>
+         </property>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="button_register">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>회원가입</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

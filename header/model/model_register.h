@@ -4,21 +4,24 @@
 #include <QDebug>
 #include <QtSql/QSqlDatabase>
 
-class _Register {
+class User {
 public:
-    _Register(const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day);
+    User(const QString& name, const QString& phone, const QString& email, const QString& birth);
 
     QString getName() const;
     QString getPhone() const;
     QString getEmail() const;
-    QString getYear() const;
-    QString getMonth() const;
-    QString getDay() const;
+    QString getBirth() const;
+    void setName(const QString& inputName);
+    void setPhone(const QString& inputPhone);
+    void setEmail(const QString& inputEmail);
+    void setBirth(const QString& inputBirth);
+
 private:
     QString m_name;
     QString m_phone;
     QString m_email;
-    QString m_year, m_month, m_day;
+    QString m_birth;
 };
 
 class RegisterModel {
@@ -26,10 +29,14 @@ public:
     RegisterModel();
     ~RegisterModel();
 
-    bool openDatabase();
-    void addUser(const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day);
-    void updateUser(int flag, const QString& name, const QString& phone, const QString& email, const QString& year, const QString& month, const QString& day);  //flag를 받고 뭘 update(변경)할 건지 선택
-    bool isIDTaken(const QString& id);
+    bool open_database();
+    void close_database();
+    bool create_user(const User& user);
+    User read_user(const User& user, int flag);
+    void update_user(User& user, int flag);  //flag를 받고 뭘 update(변경)할 건지 선택
+    void delete_user(const User& user);
+    void checkAvailableDrivers();
+
 
 private:
     QSqlDatabase db;

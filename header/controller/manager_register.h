@@ -1,6 +1,7 @@
 #ifndef MANAGER_REGISTER_H
 #define MANAGER_REGISTER_H
 
+#include "model_login.h"
 #include "model_register.h"
 
 #include <QObject>
@@ -15,11 +16,14 @@ public:
     explicit RegisterManager(QObject *parent = nullptr);
     ~RegisterManager();
 
-    bool registerCheck(bool idCheck, bool pwCheck);
-    bool IDCheck(const QString& id);
-    bool PWCheck(const QString& pw);
+    bool check_register(bool idCheck, bool pwCheck);
+    bool check_ID(const QString& id);
+    bool check_PW(const QString& pw);
+    void add_loginData(const Login& login);
+    void add_userData(const User& user);
 
 private:
+    LoginModel *loginModel;
     RegisterModel *registerModel;
 };
 
