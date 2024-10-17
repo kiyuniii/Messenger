@@ -43,6 +43,7 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer;
     QPushButton *button_register;
+    QSpacerItem *horizontalSpacer_2;
     QPushButton *button_login;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_loginStatus;
@@ -127,6 +128,7 @@ public:
 "    color: black;                        /* \352\262\200\354\235\200\354\203\211 \355\205\215\354\212\244\355\212\270 */\n"
 "}\n"
 ""));
+        lineEdit_PW->setEchoMode(QLineEdit::EchoMode::Password);
 
         horizontalLayout_6->addWidget(lineEdit_PW);
 
@@ -141,11 +143,17 @@ public:
 
         button_register = new QPushButton(centralwidget);
         button_register->setObjectName("button_register");
+        button_register->setMinimumSize(QSize(0, 40));
 
         horizontalLayout_3->addWidget(button_register);
 
+        horizontalSpacer_2 = new QSpacerItem(15, 2, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
         button_login = new QPushButton(centralwidget);
         button_login->setObjectName("button_login");
+        button_login->setMinimumSize(QSize(0, 40));
 
         horizontalLayout_3->addWidget(button_login);
 
@@ -203,8 +211,8 @@ public:
         lineEdit_ID->setPlaceholderText(QCoreApplication::translate("LoginWindow", "Enter your ID ...", nullptr));
         label_PW->setText(QCoreApplication::translate("LoginWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">PW </span></p></body></html>", nullptr));
         lineEdit_PW->setPlaceholderText(QCoreApplication::translate("LoginWindow", "Enter your Password ...", nullptr));
-        button_register->setText(QCoreApplication::translate("LoginWindow", "register", nullptr));
-        button_login->setText(QCoreApplication::translate("LoginWindow", "login", nullptr));
+        button_register->setText(QCoreApplication::translate("LoginWindow", "\355\232\214\354\233\220\352\260\200\354\236\205", nullptr));
+        button_login->setText(QCoreApplication::translate("LoginWindow", "\353\241\234\352\267\270\354\235\270", nullptr));
         label_loginStatus->setText(QString());
         label->setText(QCoreApplication::translate("LoginWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:24pt; font-weight:700;\">Messenger</span></p></body></html>", nullptr));
         menuLogin->setTitle(QCoreApplication::translate("LoginWindow", "\353\241\234\352\267\270\354\235\270", nullptr));

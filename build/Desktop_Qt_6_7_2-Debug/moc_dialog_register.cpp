@@ -37,12 +37,21 @@ namespace {
 struct qt_meta_stringdata_CLASSRegisterDialogENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSRegisterDialogENDCLASS = QtMocHelpers::stringData(
     "RegisterDialog",
-    "clicked_isIDTaken",
+    "registerCompleted",
     "",
+    "set_userData",
+    "update_userData",
+    "clicked_isIDTaken",
+    "clicked_register",
     "check_isPWSame",
-    "daysComboBox",
+    "open_mainWindow",
+    "sum_email",
+    "address",
+    "domain",
+    "sum_birth",
     "year",
-    "month"
+    "month",
+    "day"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -55,22 +64,38 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRegisterDialogENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   68,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   32,    2, 0x08,    1 /* Private */,
-       3,    0,   33,    2, 0x08,    2 /* Private */,
-       4,    2,   34,    2, 0x08,    3 /* Private */,
+       3,    0,   69,    2, 0x08,    2 /* Private */,
+       4,    0,   70,    2, 0x08,    3 /* Private */,
+       5,    0,   71,    2, 0x08,    4 /* Private */,
+       6,    0,   72,    2, 0x08,    5 /* Private */,
+       7,    0,   73,    2, 0x08,    6 /* Private */,
+       8,    0,   74,    2, 0x08,    7 /* Private */,
+       9,    2,   75,    2, 0x08,    8 /* Private */,
+      12,    3,   80,    2, 0x08,   11 /* Private */,
+
+ // signals: parameters
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Int, QMetaType::Int, QMetaType::Int,    5,    6,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,   10,   11,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,   13,   14,   15,
 
        0        // eod
 };
@@ -84,14 +109,29 @@ Q_CONSTINIT const QMetaObject RegisterDialog::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSRegisterDialogENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<RegisterDialog, std::true_type>,
+        // method 'registerCompleted'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'set_userData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'update_userData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'clicked_isIDTaken'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'clicked_register'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'check_isPWSame'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'daysComboBox'
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>
+        // method 'open_mainWindow'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'sum_email'
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        // method 'sum_birth'
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>
     >,
     nullptr
 } };
@@ -102,11 +142,27 @@ void RegisterDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         auto *_t = static_cast<RegisterDialog *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->clicked_isIDTaken(); break;
-        case 1: _t->check_isPWSame(); break;
-        case 2: { int _r = _t->daysComboBox((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2])));
-            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
+        case 0: _t->registerCompleted(); break;
+        case 1: _t->set_userData(); break;
+        case 2: _t->update_userData(); break;
+        case 3: _t->clicked_isIDTaken(); break;
+        case 4: _t->clicked_register(); break;
+        case 5: _t->check_isPWSame(); break;
+        case 6: _t->open_mainWindow(); break;
+        case 7: { QString _r = _t->sum_email((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])));
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
+        case 8: { QString _r = _t->sum_birth((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3])));
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (RegisterDialog::*)();
+            if (_t _q_method = &RegisterDialog::registerCompleted; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 0;
+                return;
+            }
         }
     }
 }
@@ -130,14 +186,20 @@ int RegisterDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 9)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 9;
     }
     return _id;
+}
+
+// SIGNAL 0
+void RegisterDialog::registerCompleted()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP

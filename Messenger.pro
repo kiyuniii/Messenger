@@ -1,4 +1,4 @@
-QT += core gui sql
+QT += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,12 +16,16 @@ SOURCES += \
     $$files($$PWD/source/model/*.cpp)   \
     $$files($$PWD/source/view/*.cpp)   \
     $$files($$PWD/source/controller/*.cpp) \
+    network/tcp_client.cpp \
+    network/tcp_server.cpp
 
 # 헤더 파일
 HEADERS += \
     $$files($$PWD/header/model/*.h)   \
     $$files($$PWD/header/view/*.h)   \
     $$files($$PWD/header/controller/*.h) \
+    network/tcp_client.h \
+    network/tcp_server.h
 
 # UI forms 파일
 FORMS += \

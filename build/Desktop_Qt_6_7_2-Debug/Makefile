@@ -64,7 +64,9 @@ SOURCES       = ../../main.cpp \
 		../../source/view/window_main.cpp \
 		../../source/controller/manager_chat.cpp \
 		../../source/controller/manager_login.cpp \
-		../../source/controller/manager_register.cpp moc_dialog_register.cpp \
+		../../source/controller/manager_register.cpp \
+		../../network/tcp_client.cpp \
+		../../network/tcp_server.cpp moc_dialog_register.cpp \
 		moc_widget_contact.cpp \
 		moc_window_chatList.cpp \
 		moc_window_contactList.cpp \
@@ -85,6 +87,8 @@ OBJECTS       = main.o \
 		manager_chat.o \
 		manager_login.o \
 		manager_register.o \
+		tcp_client.o \
+		tcp_server.o \
 		moc_dialog_register.o \
 		moc_widget_contact.o \
 		moc_window_chatList.o \
@@ -449,7 +453,9 @@ DIST          = /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../header/view/window_main.h \
 		../../header/controller/manager_chat.h \
 		../../header/controller/manager_login.h \
-		../../header/controller/manager_register.h ../../main.cpp \
+		../../header/controller/manager_register.h \
+		../../network/tcp_client.h \
+		../../network/tcp_server.h ../../main.cpp \
 		../../source/model/model_chat.cpp \
 		../../source/model/model_login.cpp \
 		../../source/model/model_register.cpp \
@@ -461,7 +467,9 @@ DIST          = /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../source/view/window_main.cpp \
 		../../source/controller/manager_chat.cpp \
 		../../source/controller/manager_login.cpp \
-		../../source/controller/manager_register.cpp
+		../../source/controller/manager_register.cpp \
+		../../network/tcp_client.cpp \
+		../../network/tcp_server.cpp
 QMAKE_TARGET  = Messenger
 DESTDIR       = 
 TARGET        = Messenger
@@ -1187,8 +1195,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/kiyun/Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../header/model/model_chat.h ../../header/model/model_login.h ../../header/model/model_register.h ../../header/view/dialog_contact.h ../../header/view/dialog_register.h ../../header/view/widget_contact.h ../../header/view/window_chatList.h ../../header/view/window_contactList.h ../../header/view/window_login.h ../../header/view/window_main.h ../../header/controller/manager_chat.h ../../header/controller/manager_login.h ../../header/controller/manager_register.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../source/model/model_chat.cpp ../../source/model/model_login.cpp ../../source/model/model_register.cpp ../../source/view/dialog_register.cpp ../../source/view/widget_contact.cpp ../../source/view/window_chatList.cpp ../../source/view/window_contactList.cpp ../../source/view/window_login.cpp ../../source/view/window_main.cpp ../../source/controller/manager_chat.cpp ../../source/controller/manager_login.cpp ../../source/controller/manager_register.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../header/model/model_chat.h ../../header/model/model_login.h ../../header/model/model_register.h ../../header/view/dialog_contact.h ../../header/view/dialog_register.h ../../header/view/widget_contact.h ../../header/view/window_chatList.h ../../header/view/window_contactList.h ../../header/view/window_login.h ../../header/view/window_main.h ../../header/controller/manager_chat.h ../../header/controller/manager_login.h ../../header/controller/manager_register.h ../../network/tcp_client.h ../../network/tcp_server.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../source/model/model_chat.cpp ../../source/model/model_login.cpp ../../source/model/model_register.cpp ../../source/view/dialog_register.cpp ../../source/view/widget_contact.cpp ../../source/view/window_chatList.cpp ../../source/view/window_contactList.cpp ../../source/view/window_login.cpp ../../source/view/window_main.cpp ../../source/controller/manager_chat.cpp ../../source/controller/manager_login.cpp ../../source/controller/manager_register.cpp ../../network/tcp_client.cpp ../../network/tcp_server.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../source/ui/dialog_register.ui ../../source/ui/window_chatList.ui ../../source/ui/window_contactList.ui ../../source/ui/window_login.ui ../../source/ui/window_main.ui $(DISTDIR)/
 
 
@@ -1428,13 +1436,14 @@ moc_dialog_register.cpp: ../../header/view/dialog_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -2264,13 +2273,14 @@ moc_window_login.cpp: ../../header/view/window_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../header/view/dialog_register.h \
 		../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -2281,7 +2291,6 @@ moc_window_login.cpp: ../../header/view/window_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		../../header/controller/manager_login.h \
-		../../header/model/model_login.h \
 		moc_predefs.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/view/window_login.h -o moc_window_login.cpp
@@ -2617,7 +2626,7 @@ moc_manager_login.cpp: ../../header/controller/manager_login.h \
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/build/Desktop_Qt_6_7_2-Debug/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger -I/home/kiyun/paper/projects/Messenger/header -I/home/kiyun/paper/projects/Messenger/header/model -I/home/kiyun/paper/projects/Messenger/header/view -I/home/kiyun/paper/projects/Messenger/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../header/controller/manager_login.h -o moc_manager_login.cpp
 
 moc_manager_register.cpp: ../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
@@ -2730,6 +2739,7 @@ moc_manager_register.cpp: ../../header/controller/manager_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
@@ -2982,13 +2992,14 @@ main.o: ../../main.cpp ../../header/view/window_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../header/view/dialog_register.h \
 		../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -2999,7 +3010,6 @@ main.o: ../../main.cpp ../../header/view/window_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		../../header/controller/manager_login.h \
-		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
@@ -3462,13 +3472,14 @@ dialog_register.o: ../../source/view/dialog_register.cpp ../../header/view/dialo
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -3478,7 +3489,29 @@ dialog_register.o: ../../source/view/dialog_register.cpp ../../header/view/dialo
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
-		ui_dialog_register.h
+		../../ui_dialog_register.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QComboBox \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qcombobox.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qvalidator.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qslider.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qstyle.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QGridLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLabel \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpicture.h \
+		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QSpacerItem
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialog_register.o ../../source/view/dialog_register.cpp
 
 widget_contact.o: ../../source/view/widget_contact.cpp ../../header/view/widget_contact.h \
@@ -4326,13 +4359,14 @@ window_login.o: ../../source/view/window_login.cpp ../../header/view/window_logi
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../header/view/dialog_register.h \
 		../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/QSqlDatabase \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QDialog \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets/QLineEdit \
@@ -4343,7 +4377,6 @@ window_login.o: ../../source/view/window_login.cpp ../../header/view/window_logi
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		../../header/controller/manager_login.h \
-		../../header/model/model_login.h \
 		../../ui_window_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QVariant \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui/QAction \
@@ -4702,7 +4735,7 @@ manager_login.o: ../../source/controller/manager_login.cpp ../../header/controll
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_login.o ../../source/controller/manager_login.cpp
 
 manager_register.o: ../../source/controller/manager_register.cpp ../../header/controller/manager_register.h \
-		../../header/model/model_register.h \
+		../../header/model/model_login.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
@@ -4815,12 +4848,19 @@ manager_register.o: ../../source/controller/manager_register.cpp ../../header/co
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		../../header/model/model_register.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
 		/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_register.o ../../source/controller/manager_register.cpp
+
+tcp_client.o: ../../network/tcp_client.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcp_client.o ../../network/tcp_client.cpp
+
+tcp_server.o: ../../network/tcp_server.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcp_server.o ../../network/tcp_server.cpp
 
 moc_dialog_register.o: moc_dialog_register.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialog_register.o moc_dialog_register.cpp

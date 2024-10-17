@@ -8,7 +8,7 @@
 
 ContactListWindow::ContactListWindow(QWidget *parent)
     : QMainWindow(parent)
-    , profileCount(0)
+    //, profileCount(0)
     , ui(new Ui::ContactListWindow)
 {
     ui->setupUi(this);

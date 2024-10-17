@@ -4,5 +4,4 @@
 - qmake
 - make
 - ./Messenger
--
-- -
+
