@@ -4,6 +4,7 @@
 
 #include "window_main.h"
 #include "manager_register.h"
+#include "tcp_client.h"
 
 #include <QDialog>
 #include <QPushButton>
@@ -27,11 +28,11 @@ public:
 
 private:
     Ui::RegisterDialog *ui;
-    Login *newLogin;
-    User *newUser;
-
+    TCPClient *tcpClient;
     MainWindow *mainWindow;
     RegisterManager *registerManager;
+    Login *newLogin;
+    User *newUser;
 
 signals:
     void registerCompleted();
@@ -39,10 +40,11 @@ signals:
 private slots:
     void set_userData();
     void update_userData();
+
     void clicked_isIDTaken();
     void clicked_register();
     void check_isPWSame();
-    //int daysComboBox(int year, int month);
+
     void open_mainWindow();
 
     QString sum_email(QString address, QString domain);

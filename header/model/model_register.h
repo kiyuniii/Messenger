@@ -2,7 +2,6 @@
 #define MODEL_REGISTER_H
 
 #include <QDebug>
-#include <QtSql/QSqlDatabase>
 
 class User {
 public:
@@ -24,22 +23,4 @@ private:
     QString m_birth;
 };
 
-class RegisterModel {
-public:
-    RegisterModel();
-    ~RegisterModel();
-
-    bool open_database();
-    void close_database();
-    bool create_user(const User& user);
-    User read_user(const User& user, int flag);
-    void update_user(User& user, int flag);  //flag를 받고 뭘 update(변경)할 건지 선택
-    void delete_user(const User& user);
-    void checkAvailableDrivers();
-
-
-private:
-    QSqlDatabase db;
-};
-
-#endif // MODEL_REGISTER_H
+#endif//MODEL_REGISTER_H

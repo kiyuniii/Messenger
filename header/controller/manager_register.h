@@ -3,6 +3,7 @@
 
 #include "model_login.h"
 #include "model_register.h"
+#include "tcp_client.h"
 
 #include <QObject>
 #include <QDebug>
@@ -16,15 +17,11 @@ public:
     explicit RegisterManager(QObject *parent = nullptr);
     ~RegisterManager();
 
-    bool check_register(bool idCheck, bool pwCheck);
-    bool check_ID(const QString& id);
-    bool check_PW(const QString& pw);
-    void add_loginData(const Login& login);
-    void add_userData(const User& user);
+    //void send_regCheck(const Login& login);
+    void send_register(const Login& login, const User& user);
 
 private:
-    LoginModel *loginModel;
-    RegisterModel *registerModel;
+    TCPClient *tcpClient;
 };
 
 #endif // MANAGER_REGISTER_H

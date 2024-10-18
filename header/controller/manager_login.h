@@ -2,6 +2,7 @@
 #define MANAGER_LOGIN_H
 
 #include "model_login.h"
+#include "tcp_client.h"
 
 #include <QObject>
 #include <QDebug>
@@ -17,18 +18,10 @@ public:
     explicit LoginManager(QObject *parent = nullptr);
     ~LoginManager();
 
-    bool login(Login& login);
-    bool logout();
-    //bool reset_PW(const Login& login);
-    //bool add_loginData(const QString& id, const QString& pw);
-    //bool isIDAvailable(const QString& id);
-
-    QString getCurrentID() const;
-    bool isLoggedIn() const;    //로그인여부 -> 세션 유지여부
+    void send_login(const Login& login);
 
 private:
-    LoginModel* loginModel;
-    QString currentID;
+    TCPClient *tcpClient;
 };
 
 #endif // MANAGER_LOGIN_H

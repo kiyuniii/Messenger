@@ -4,7 +4,11 @@
 RegisterDialog::RegisterDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::RegisterDialog)
-    //, registerManager(new RegisterManager(this))
+    , tcpClient(new TCPClient(this))
+    , mainWindow(new MainWindow(this))
+    , registerManager(new RegisterManager(this))
+    , newLogin(nullptr)
+    , newUser(nullptr)
 {
     ui->setupUi(this);
 
@@ -33,13 +37,6 @@ RegisterDialog::RegisterDialog(QWidget *parent)
         ui->comboBox_day->addItem(QString::number(i));
     }
 
-    /*
-    connect(ui->lineEdit_year, &QLineEdit::textChanged, this, [=]() {
-        int year = ui->lineEdit_year->text().toInt();
-        int month = ui->comboBox_month->currentText().toInt();
-        daysComboBox(year, month);
-    });
-    */
     connect(ui->lineEdit_PW, &QLineEdit::textChanged, this, &RegisterDialog::check_isPWSame);
     connect(ui->lineEdit_PWCheck, &QLineEdit::textChanged, this, &RegisterDialog::check_isPWSame);
     connect(ui->button_isIDTaken, &QPushButton::clicked, this, &RegisterDialog::clicked_isIDTaken);
@@ -48,6 +45,9 @@ RegisterDialog::RegisterDialog(QWidget *parent)
 
 RegisterDialog::~RegisterDialog() {
     delete ui;
+    tcpClient->disconnect_server();
+    delete mainWindow;
+    delete registerManager;
     delete newLogin;
     delete newUser;
 }
@@ -72,34 +72,11 @@ void RegisterDialog::clicked_isIDTaken() {
 
 /* 슬롯: 회원가입 버튼을 눌렀을 때*/
 void RegisterDialog::clicked_register() {
-    /*
-    if(!newLogin || !newUser) {
-        qDebug() << "dialog_register.cpp/clicked_register";
-        return;
-    }*/
-
     update_userData();
 
-    registerManager = new RegisterManager(this);
-    registerManager->add_loginData(*newLogin);
-    registerManager->add_userData(*newUser);
+    tcpClient->write_register(*newLogin, *newUser);
+
     open_mainWindow();
-    /*
-    registerManager = new RegisterManager(this);
-    if(registerManager->check_register(registerManager->check_ID(newLogin->getID()), registerManager->check_PW(newLogin->getPW()))) {
-        qDebug() << "ID, PW Available";
-
-        registerManager->add_loginData(*newLogin);
-        registerManager->add_userData(*newUser);
-
-        //emit registerCompleted();   //시그널 발생_회원가입 완료
-        this->close();              //registerDialog를 닫는다.
-        open_mainWindow();
-    } else {
-        qDebug() << "Wrong";
-        this->close();
-    }
-    */
 }
 
 void RegisterDialog::check_isPWSame() {
@@ -115,30 +92,9 @@ void RegisterDialog::check_isPWSame() {
     }
 }
 
-/*
-int RegisterDialog::daysComboBox(int year, int month) {
-    int days = 31;  // 기본값: 31일
-    if (month == 2) {  // 2월 처리
-        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-            days = 29;  // 윤년
-        } else {
-            days = 28;  // 평년
-        }
-    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-        days = 30;  // 4, 6, 9, 11월은 30일까지
-    }
-
-    ui->comboBox_day->clear();  // 기존 항목 삭제
-    for (int i = 1; i <= days; ++i) {
-        ui->comboBox_day->addItem(QString::number(i));  // 1일부터 days일까지 추가
-    }
-    return days;
-}*/
-
 void RegisterDialog::open_mainWindow() {
     this->hide();
     qDebug() << "Open MainWindow!";
-    mainWindow = new MainWindow(this);
     mainWindow->show();
 }
 

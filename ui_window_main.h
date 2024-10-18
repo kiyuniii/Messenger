@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -27,6 +28,7 @@ public:
     QPushButton *button_chatList;
     QPushButton *button_groupChatList;
     QPushButton *button_notice;
+    QLabel *label_clientStatus;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -50,6 +52,9 @@ public:
         button_notice = new QPushButton(centralwidget);
         button_notice->setObjectName("button_notice");
         button_notice->setGeometry(QRect(545, 950, 155, 80));
+        label_clientStatus = new QLabel(centralwidget);
+        label_clientStatus->setObjectName("label_clientStatus");
+        label_clientStatus->setGeometry(QRect(200, 50, 301, 71));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -71,6 +76,7 @@ public:
         button_chatList->setText(QCoreApplication::translate("MainWindow", "\353\214\200\355\231\224", nullptr));
         button_groupChatList->setText(QCoreApplication::translate("MainWindow", "\355\232\214\354\235\230", nullptr));
         button_notice->setText(QCoreApplication::translate("MainWindow", "\352\263\265\354\247\200", nullptr));
+        label_clientStatus->setText(QString());
     } // retranslateUi
 
 };

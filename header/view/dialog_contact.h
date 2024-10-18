@@ -1,4 +1,0 @@
-#ifndef DIALOG_CONTACT_H
-#define DIALOG_CONTACT_H
-
-#endif // DIALOG_CONTACT_H

@@ -40,8 +40,8 @@ constexpr auto qt_meta_stringdata_CLASSLoginWindowENDCLASS = QtMocHelpers::strin
     "open_MainWindow",
     "",
     "open_RegisterDialog",
-    "clicked_loginButton",
-    "clicked_registerButton"
+    "clicked_login",
+    "clicked_register"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -89,9 +89,9 @@ Q_CONSTINIT const QMetaObject LoginWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'open_RegisterDialog'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'clicked_loginButton'
+        // method 'clicked_login'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'clicked_registerButton'
+        // method 'clicked_register'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -105,8 +105,8 @@ void LoginWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         switch (_id) {
         case 0: _t->open_MainWindow(); break;
         case 1: _t->open_RegisterDialog(); break;
-        case 2: _t->clicked_loginButton(); break;
-        case 3: _t->clicked_registerButton(); break;
+        case 2: _t->clicked_login(); break;
+        case 3: _t->clicked_register(); break;
         default: ;
         }
     }

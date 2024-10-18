@@ -4,6 +4,7 @@
 #include "window_main.h"
 #include "dialog_register.h"
 #include "manager_login.h"
+#include "tcp_client.h"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -25,17 +26,18 @@ public:
 
 private:
     Ui::LoginWindow *ui;
+    TCPClient *tcpClient;
     MainWindow *mainWindow;
     RegisterDialog *registerDialog;
-
     LoginManager *loginManager;
+    Login *login;
 
 private slots:
     void open_MainWindow();
     void open_RegisterDialog();
-    void clicked_loginButton();
-    void clicked_registerButton();
-    //void on_registerCompleted();    //슬롯_RegisterDialog::registerCompleted()
+
+    void clicked_login();
+    void clicked_register();
 };
 
 #endif // WINDOW_LOGIN_H

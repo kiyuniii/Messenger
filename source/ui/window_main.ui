@@ -69,6 +69,19 @@
      <string>공지</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_clientStatus">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>50</y>
+      <width>301</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

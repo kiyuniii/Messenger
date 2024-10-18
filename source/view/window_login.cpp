@@ -1,56 +1,51 @@
 #include "window_login.h"
 #include "ui_window_login.h"
 
+
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LoginWindow)
-    //, loginManager(new LoginManager(this))
+    , tcpClient(new TCPClient(this))
+    , mainWindow(new MainWindow(this))
+    , registerDialog(new RegisterDialog(this))
+    , loginManager(new LoginManager(this))
+    , login(nullptr)
 {
     ui->setupUi(this);
 
-    //connect(registerDialog, &RegisterDialog::registerCompleted, this, &LoginWindow::on_registerCompleted);
-    connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::clicked_loginButton);
-    connect(ui->button_register, &QPushButton::clicked, this, &LoginWindow::clicked_registerButton);
+    tcpClient->connect_server("192.168.2.36", 5050);
+
+    connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::clicked_login);
+    connect(ui->button_register, &QPushButton::clicked, this, &LoginWindow::clicked_register);
 }
 
 LoginWindow::~LoginWindow() {
     delete ui;
+    tcpClient->disconnect_server();
+    delete mainWindow;
+    delete registerDialog;
+    delete loginManager;
+    delete login;
 }
 
 void LoginWindow::open_MainWindow() {
     this->hide();
-    mainWindow = new MainWindow(this);
     mainWindow->show();
 }
 
 void LoginWindow::open_RegisterDialog() {
     this->hide();
     qDebug() << "open Register Dialog!";
-    registerDialog = new RegisterDialog(this);
     registerDialog->show();
 }
 
-void LoginWindow::clicked_loginButton() {
-    QString inputID = ui->lineEdit_ID->text();
-    QString inputPW = ui->lineEdit_PW->text();
-    Login inputLogin(inputID, inputPW);
-
-    if(loginManager->login(inputLogin)) {
-        qDebug() << "Login Successful";
-        open_MainWindow();
-    } else {
-        qDebug() << "Login Failed";
-        ui->label_loginStatus->setText("로그인 실패");
-    }
+void LoginWindow::clicked_login() {
+    login->setID(ui->lineEdit_ID->text());
+    login->setPW(ui->lineEdit_PW->text());
+    loginManager->send_login(*login);
 }
 
-void LoginWindow::clicked_registerButton() {
+void LoginWindow::clicked_register() {
     open_RegisterDialog();
 }
 
-/*
-void LoginWindow::on_registerCompleted() {
-    this->close();      //회원가입이 완료되면 loginWindow 닫고
-    open_MainWindow();  //mainWindow를 연다
-}
-*/
