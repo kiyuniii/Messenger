@@ -42,7 +42,8 @@ void TCPthread::on_readyRead() {
     case CommandCode::LOGIN: {
         QString id = data.at(0).toString();
         QString pw = data.at(1).toString();
-        qDebug() << "Login request from: " << m_socketDescriptor << "ID:" << id << "PW:" << pw;
+        qDebug() << "Login request from: " << m_socketDescriptor;
+        qDebug() << "ID:" << id << "PW:" << pw;
         break;
     }
     case CommandCode::REGISTER: {
