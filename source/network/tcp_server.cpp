@@ -4,12 +4,11 @@
 
 TCPserver::TCPserver(QObject *parent)
     : QTcpServer(parent)
-{
-    listen(QHostAddress::Any, 5050);
-    qDebug() << "서버 시작";
-}
+{ }
 
 TCPserver::~TCPserver() {
+    close();
+
     for(auto thread : threads) {
         thread->quit();
         thread->wait();

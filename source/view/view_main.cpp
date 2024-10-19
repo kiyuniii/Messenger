@@ -27,14 +27,14 @@ void MainWindow::clicked_serverOn() {
     if(!server) {
         server = new TCPserver(this);
 
-        if(!server->listen(QHostAddress::Any, 5050)) {
+        if(!server->listen(QHostAddress::Any, 5060)) {
             qDebug() << "Error: Server Failed to start";
             delete server;
             server = nullptr;
             return;
         }
-        qDebug() << "Server Listening (PORT: 5050)";
-        ui->label_serverStatus->setText("Server Listening (PORT: 5050)");
+        qDebug() << "Server Listening (PORT: 5060)";
+        ui->label_serverStatus->setText("Server Listening (PORT: 5060)");
     } else {
         qDebug() << "Server already running";
         ui->label_serverStatus->setText("Server already Running");
