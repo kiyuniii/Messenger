@@ -1,5 +1,5 @@
 #include "tcp_thread.h"
-#include "code_command.h"
+//#include "code_command.h"
 
 TCPthread::TCPthread(qintptr socketDescriptor, QObject* parent)
     : QThread(parent)
@@ -23,7 +23,13 @@ void TCPthread::run() {
     exec(); //start(server) -> run(thread) -> exec(thread)
 }
 
+void TCPthread::on_readyRead() {
 
+}
+
+
+
+/*
 void TCPthread::on_readyRead() {
     QByteArray buffer = socket->readAll();
     QDataStream in(&buffer, QIODevice::ReadOnly);   //데이터스트림 변환
@@ -62,4 +68,4 @@ void TCPthread::on_readyRead() {
         qDebug() << "Unknown command code from: " << m_socketDescriptor;
         break;
     }
-}
+}   */
