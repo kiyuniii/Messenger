@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "header/controller/tcp_client.h"
+#include "header/network/tcp_client.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -33,9 +33,9 @@ QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
 
 #ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSTCPClientENDCLASS_t {};
-constexpr auto qt_meta_stringdata_CLASSTCPClientENDCLASS = QtMocHelpers::stringData(
-    "TCPClient",
+struct qt_meta_stringdata_CLASSTCPclientENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSTCPclientENDCLASS = QtMocHelpers::stringData(
+    "TCPclient",
     "on_connected",
     "",
     "on_disconnected",
@@ -49,7 +49,7 @@ constexpr auto qt_meta_stringdata_CLASSTCPClientENDCLASS = QtMocHelpers::stringD
 #endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSTCPClientENDCLASS[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSTCPclientENDCLASS[] = {
 
  // content:
       12,       // revision
@@ -77,15 +77,15 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSTCPClientENDCLASS[] = {
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject TCPClient::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject TCPclient::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSTCPClientENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSTCPClientENDCLASS,
+    qt_meta_stringdata_CLASSTCPclientENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSTCPclientENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSTCPClientENDCLASS_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSTCPclientENDCLASS_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<TCPClient, std::true_type>,
+        QtPrivate::TypeAndForceComplete<TCPclient, std::true_type>,
         // method 'on_connected'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_disconnected'
@@ -99,10 +99,10 @@ Q_CONSTINIT const QMetaObject TCPClient::staticMetaObject = { {
     nullptr
 } };
 
-void TCPClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void TCPclient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<TCPClient *>(_o);
+        auto *_t = static_cast<TCPclient *>(_o);
         (void)_t;
         switch (_id) {
         case 0: _t->on_connected(); break;
@@ -125,20 +125,20 @@ void TCPClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
     }
 }
 
-const QMetaObject *TCPClient::metaObject() const
+const QMetaObject *TCPclient::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *TCPClient::qt_metacast(const char *_clname)
+void *TCPclient::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSTCPClientENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSTCPclientENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int TCPClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int TCPclient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)

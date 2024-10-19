@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++1z -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-INCPATH       = -I. -Iheader -Iheader/model -Iheader/view -Iheader/controller -I../../../../Qt/6.7.2/gcc_64/include -I../../../../Qt/6.7.2/gcc_64/include/QtWidgets -I../../../../Qt/6.7.2/gcc_64/include/QtGui -I../../../../Qt/6.7.2/gcc_64/include/QtSql -I../../../../Qt/6.7.2/gcc_64/include/QtNetwork -I../../../../Qt/6.7.2/gcc_64/include/QtCore -I. -I. -I../../../../Qt/6.7.2/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -Iheader -Iheader/model -Iheader/view -Iheader/network -I../../../../Qt/6.7.2/gcc_64/include -I../../../../Qt/6.7.2/gcc_64/include/QtWidgets -I../../../../Qt/6.7.2/gcc_64/include/QtGui -I../../../../Qt/6.7.2/gcc_64/include/QtSql -I../../../../Qt/6.7.2/gcc_64/include/QtNetwork -I../../../../Qt/6.7.2/gcc_64/include/QtCore -I. -I. -I../../../../Qt/6.7.2/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/kiyun/Qt/6.7.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -55,31 +55,23 @@ OBJECTS_DIR   = ./
 SOURCES       = main.cpp \
 		source/model/model_login.cpp \
 		source/model/model_register.cpp \
-		source/view/dialog_register.cpp \
-		source/view/window_login.cpp \
-		source/view/window_main.cpp \
-		source/controller/manager_login.cpp \
-		source/controller/manager_register.cpp \
-		source/controller/tcp_client.cpp moc_dialog_register.cpp \
-		moc_window_login.cpp \
-		moc_window_main.cpp \
-		moc_manager_login.cpp \
-		moc_manager_register.cpp \
+		source/view/view_login.cpp \
+		source/view/view_main.cpp \
+		source/view/view_register.cpp \
+		source/network/tcp_client.cpp moc_view_login.cpp \
+		moc_view_main.cpp \
+		moc_view_register.cpp \
 		moc_tcp_client.cpp
 OBJECTS       = main.o \
 		model_login.o \
 		model_register.o \
-		dialog_register.o \
-		window_login.o \
-		window_main.o \
-		manager_login.o \
-		manager_register.o \
+		view_login.o \
+		view_main.o \
+		view_register.o \
 		tcp_client.o \
-		moc_dialog_register.o \
-		moc_window_login.o \
-		moc_window_main.o \
-		moc_manager_login.o \
-		moc_manager_register.o \
+		moc_view_login.o \
+		moc_view_main.o \
+		moc_view_register.o \
 		moc_tcp_client.o
 DIST          = ../../../../Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/6.7.2/gcc_64/mkspecs/common/unix.conf \
@@ -426,20 +418,17 @@ DIST          = ../../../../Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/6.7.2/gcc_64/mkspecs/features/lex.prf \
 		client.pro header/model/model_login.h \
 		header/model/model_register.h \
-		header/view/dialog_register.h \
-		header/view/window_login.h \
-		header/view/window_main.h \
-		header/controller/manager_login.h \
-		header/controller/manager_register.h \
-		header/controller/tcp_client.h main.cpp \
+		header/view/view_login.h \
+		header/view/view_main.h \
+		header/view/view_register.h \
+		header/network/code_command.h \
+		header/network/tcp_client.h main.cpp \
 		source/model/model_login.cpp \
 		source/model/model_register.cpp \
-		source/view/dialog_register.cpp \
-		source/view/window_login.cpp \
-		source/view/window_main.cpp \
-		source/controller/manager_login.cpp \
-		source/controller/manager_register.cpp \
-		source/controller/tcp_client.cpp
+		source/view/view_login.cpp \
+		source/view/view_main.cpp \
+		source/view/view_register.cpp \
+		source/network/tcp_client.cpp
 QMAKE_TARGET  = client
 DESTDIR       = 
 TARGET        = client
@@ -448,7 +437,7 @@ TARGET        = client
 first: all
 ####### Build rules
 
-client: ui_dialog_register.h ui_window_chatList.h ui_window_contactList.h ui_window_login.h ui_window_main.h $(OBJECTS)  
+client: ui_view_chatList.h ui_view_contactList.h ui_view_login.h ui_view_main.h ui_view_register.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: client.pro ../../../../Qt/6.7.2/gcc_64/mkspecs/linux-g++/qmake.conf ../../../../Qt/6.7.2/gcc_64/mkspecs/features/spec_pre.prf \
@@ -1165,9 +1154,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents header/model/model_login.h header/model/model_register.h header/view/dialog_register.h header/view/window_login.h header/view/window_main.h header/controller/manager_login.h header/controller/manager_register.h header/controller/tcp_client.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp source/model/model_login.cpp source/model/model_register.cpp source/view/dialog_register.cpp source/view/window_login.cpp source/view/window_main.cpp source/controller/manager_login.cpp source/controller/manager_register.cpp source/controller/tcp_client.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents source/ui/dialog_register.ui source/ui/window_chatList.ui source/ui/window_contactList.ui source/ui/window_login.ui source/ui/window_main.ui $(DISTDIR)/
+	$(COPY_FILE) --parents header/model/model_login.h header/model/model_register.h header/view/view_login.h header/view/view_main.h header/view/view_register.h header/network/code_command.h header/network/tcp_client.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp source/model/model_login.cpp source/model/model_register.cpp source/view/view_login.cpp source/view/view_main.cpp source/view/view_register.cpp source/network/tcp_client.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents source/ui/view_chatList.ui source/ui/view_contactList.ui source/ui/view_login.ui source/ui/view_main.ui source/ui/view_register.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1199,11 +1188,11 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../../Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h ../../../../Qt/6.7.2/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_dialog_register.cpp moc_window_login.cpp moc_window_main.cpp moc_manager_login.cpp moc_manager_register.cpp moc_tcp_client.cpp
+compiler_moc_header_make_all: moc_view_login.cpp moc_view_main.cpp moc_view_register.cpp moc_tcp_client.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_dialog_register.cpp moc_window_login.cpp moc_window_main.cpp moc_manager_login.cpp moc_manager_register.cpp moc_tcp_client.cpp
-moc_dialog_register.cpp: header/view/dialog_register.h \
-		header/view/window_main.h \
+	-$(DEL_FILE) moc_view_login.cpp moc_view_main.cpp moc_view_register.cpp moc_tcp_client.cpp
+moc_view_login.cpp: header/view/view_login.h \
+		header/view/view_main.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1394,11 +1383,11 @@ moc_dialog_register.cpp: header/view/dialog_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		header/controller/manager_register.h \
+		header/view/view_register.h \
+		header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		header/model/model_register.h \
-		header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -1419,10 +1408,9 @@ moc_dialog_register.cpp: header/view/dialog_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
 		moc_predefs.h \
 		../../../../Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/dialog_register.h -o moc_dialog_register.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/view_login.h -o moc_view_login.cpp
 
-moc_window_login.cpp: header/view/window_login.h \
-		header/view/window_main.h \
+moc_view_main.cpp: header/view/view_main.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1613,12 +1601,206 @@ moc_window_login.cpp: header/view/window_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		header/view/dialog_register.h \
-		header/controller/manager_register.h \
+		moc_predefs.h \
+		../../../../Qt/6.7.2/gcc_64/libexec/moc
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/view_main.h -o moc_view_main.cpp
+
+moc_view_register.cpp: header/view/view_register.h \
+		header/view/view_main.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QList \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		header/model/model_register.h \
-		header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -1637,469 +1819,11 @@ moc_window_login.cpp: header/view/window_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
-		header/controller/manager_login.h \
 		moc_predefs.h \
 		../../../../Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/window_login.h -o moc_window_login.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/view_register.h -o moc_view_register.cpp
 
-moc_window_main.cpp: header/view/window_main.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qline.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QList \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QRect \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSize \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/QTransform \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		moc_predefs.h \
-		../../../../Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/view/window_main.h -o moc_window_main.cpp
-
-moc_manager_login.cpp: header/controller/manager_login.h \
-		header/model/model_login.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		header/controller/tcp_client.h \
-		header/model/model_register.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qhostaddress.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QAbstractSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
-		moc_predefs.h \
-		../../../../Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/controller/manager_login.h -o moc_manager_login.cpp
-
-moc_manager_register.cpp: header/controller/manager_register.h \
-		header/model/model_login.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		header/model/model_register.h \
-		header/controller/tcp_client.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qhostaddress.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QAbstractSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
-		moc_predefs.h \
-		../../../../Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/controller/manager_register.h -o moc_manager_register.cpp
-
-moc_tcp_client.cpp: header/controller/tcp_client.h \
+moc_tcp_client.cpp: header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
@@ -2227,34 +1951,34 @@ moc_tcp_client.cpp: header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		moc_predefs.h \
 		../../../../Qt/6.7.2/gcc_64/libexec/moc
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/controller -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/controller/tcp_client.h -o moc_tcp_client.cpp
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/client/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/client -I/home/kiyun/paper/projects/Messenger/client/header -I/home/kiyun/paper/projects/Messenger/client/header/model -I/home/kiyun/paper/projects/Messenger/client/header/view -I/home/kiyun/paper/projects/Messenger/client/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/network/tcp_client.h -o moc_tcp_client.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_dialog_register.h ui_window_chatList.h ui_window_contactList.h ui_window_login.h ui_window_main.h
+compiler_uic_make_all: ui_view_chatList.h ui_view_contactList.h ui_view_login.h ui_view_main.h ui_view_register.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_dialog_register.h ui_window_chatList.h ui_window_contactList.h ui_window_login.h ui_window_main.h
-ui_dialog_register.h: source/ui/dialog_register.ui \
+	-$(DEL_FILE) ui_view_chatList.h ui_view_contactList.h ui_view_login.h ui_view_main.h ui_view_register.h
+ui_view_chatList.h: source/ui/view_chatList.ui \
 		../../../../Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/dialog_register.ui -o ui_dialog_register.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/view_chatList.ui -o ui_view_chatList.h
 
-ui_window_chatList.h: source/ui/window_chatList.ui \
+ui_view_contactList.h: source/ui/view_contactList.ui \
 		../../../../Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/window_chatList.ui -o ui_window_chatList.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/view_contactList.ui -o ui_view_contactList.h
 
-ui_window_contactList.h: source/ui/window_contactList.ui \
+ui_view_login.h: source/ui/view_login.ui \
 		../../../../Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/window_contactList.ui -o ui_window_contactList.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/view_login.ui -o ui_view_login.h
 
-ui_window_login.h: source/ui/window_login.ui \
+ui_view_main.h: source/ui/view_main.ui \
 		../../../../Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/window_login.ui -o ui_window_login.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/view_main.ui -o ui_view_main.h
 
-ui_window_main.h: source/ui/window_main.ui \
+ui_view_register.h: source/ui/view_register.ui \
 		../../../../Qt/6.7.2/gcc_64/libexec/uic
-	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/window_main.ui -o ui_window_main.h
+	/home/kiyun/Qt/6.7.2/gcc_64/libexec/uic source/ui/view_register.ui -o ui_view_register.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -2266,8 +1990,8 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: main.cpp header/view/window_login.h \
-		header/view/window_main.h \
+main.o: main.cpp header/view/view_login.h \
+		header/view/view_main.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2458,12 +2182,11 @@ main.o: main.cpp header/view/window_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		header/view/dialog_register.h \
-		header/controller/manager_register.h \
+		header/view/view_register.h \
+		header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		header/model/model_register.h \
-		header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -2482,7 +2205,6 @@ main.o: main.cpp header/view/window_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
-		header/controller/manager_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QApplication \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -2594,21 +2316,7 @@ model_login.o: source/model/model_login.cpp header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlQuery \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqlquery.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlError \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqlerror.h
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model_login.o source/model/model_login.cpp
 
 model_register.o: source/model/model_register.cpp header/model/model_register.h \
@@ -2718,25 +2426,12 @@ model_register.o: source/model/model_register.cpp header/model/model_register.h 
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlQuery \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqlquery.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/QSqlError \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqlerror.h
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model_register.o source/model/model_register.cpp
 
-dialog_register.o: source/view/dialog_register.cpp header/view/dialog_register.h \
-		header/view/window_main.h \
+view_login.o: source/view/view_login.cpp header/network/code_command.h \
+		header/view/view_login.h \
+		header/view/view_main.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2927,11 +2622,11 @@ dialog_register.o: source/view/dialog_register.cpp header/view/dialog_register.h
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		header/controller/manager_register.h \
+		header/view/view_register.h \
+		header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		header/model/model_register.h \
-		header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -2950,11 +2645,10 @@ dialog_register.o: source/view/dialog_register.cpp header/view/dialog_register.h
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
-		ui_dialog_register.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialog_register.o source/view/dialog_register.cpp
+		ui_view_login.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o view_login.o source/view/view_login.cpp
 
-window_login.o: source/view/window_login.cpp header/view/window_login.h \
-		header/view/window_main.h \
+view_main.o: source/view/view_main.cpp header/view/view_main.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3145,12 +2839,206 @@ window_login.o: source/view/window_login.cpp header/view/window_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		header/view/dialog_register.h \
-		header/controller/manager_register.h \
+		ui_view_main.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o view_main.o source/view/view_main.cpp
+
+view_register.o: source/view/view_register.cpp header/network/code_command.h \
+		header/view/view_register.h \
+		header/view/view_main.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qline.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QList \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QRect \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSize \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/QTransform \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		header/model/model_register.h \
-		header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -3169,463 +3057,10 @@ window_login.o: source/view/window_login.cpp header/view/window_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextformat.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpen.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtextoption.h \
-		header/controller/manager_login.h \
-		ui_window_login.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_login.o source/view/window_login.cpp
+		ui_view_register.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o view_register.o source/view/view_register.cpp
 
-window_main.o: source/view/window_main.cpp header/view/window_main.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QMainWindow \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qmainwindow.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtguiexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qwidget.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qaction.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qkeysequence.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qicon.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpixelformat.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qline.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpalette.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbrush.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfont.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qendian.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontmetrics.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qfontinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qsizepolicy.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qcursor.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qbitmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qurl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qeventpoint.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvector2d.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qvectornd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qpointingdevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputdevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QList \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QRect \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSize \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QSizeF \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/QTransform \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnativeinterface.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qscreen_platform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfutureinterface.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtsan_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qresultstore.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfuture_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthreadpool.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrunnable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexception.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpromise.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtGui/qguiapplication_platform.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/QPushButton \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		ui_window_main.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window_main.o source/view/window_main.cpp
-
-manager_login.o: source/controller/manager_login.cpp header/controller/manager_login.h \
-		header/model/model_login.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		header/controller/tcp_client.h \
-		header/model/model_register.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qhostaddress.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QAbstractSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_login.o source/controller/manager_login.cpp
-
-manager_register.o: source/controller/manager_register.cpp header/controller/manager_register.h \
-		header/model/model_login.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfigmacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtconfiginclude.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypes.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qassert.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtcoreexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversionchecks.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtnoop.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevicebase.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtversion.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qyieldcpu.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qconstructormacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdarwinhelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qexceptionhandling.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qforeach.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttypetraits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmalloc.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qminmax.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qoverload.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qswap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtresource.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qttranslation.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtmetamacros.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydatapointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qarraydataops.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qxptype_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20functional.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20memory.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearrayview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringfwd.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q20type_traits.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter_base.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlatin1stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qanystringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qutf8stringview.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringtokenizer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringconverter.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcompare.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcomparehelpers.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfloat16.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmath.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterable.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmetacontainer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcontainerinfo.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qtaggedpointer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qscopeguard.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qshareddata_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		header/model/model_register.h \
-		header/controller/tcp_client.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qhostaddress.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qbindingstorage.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QAbstractSocket \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o manager_register.o source/controller/manager_register.cpp
-
-tcp_client.o: source/controller/tcp_client.cpp header/controller/tcp_client.h \
+tcp_client.o: source/network/tcp_client.cpp header/network/tcp_client.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
@@ -3751,22 +3186,16 @@ tcp_client.o: source/controller/tcp_client.cpp header/controller/tcp_client.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/q23utility.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QAbstractSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcp_client.o source/controller/tcp_client.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcp_client.o source/network/tcp_client.cpp
 
-moc_dialog_register.o: moc_dialog_register.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialog_register.o moc_dialog_register.cpp
+moc_view_login.o: moc_view_login.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_view_login.o moc_view_login.cpp
 
-moc_window_login.o: moc_window_login.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window_login.o moc_window_login.cpp
+moc_view_main.o: moc_view_main.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_view_main.o moc_view_main.cpp
 
-moc_window_main.o: moc_window_main.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window_main.o moc_window_main.cpp
-
-moc_manager_login.o: moc_manager_login.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_manager_login.o moc_manager_login.cpp
-
-moc_manager_register.o: moc_manager_register.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_manager_register.o moc_manager_register.cpp
+moc_view_register.o: moc_view_register.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_view_register.o moc_view_register.cpp
 
 moc_tcp_client.o: moc_tcp_client.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_tcp_client.o moc_tcp_client.cpp

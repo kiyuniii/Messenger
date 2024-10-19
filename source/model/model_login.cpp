@@ -1,8 +1,5 @@
 #include "model_login.h"
 
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-
 Login::Login(const QString& id, const QString& pw)
     : m_ID(id), m_PW(pw) { }
 
