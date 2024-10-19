@@ -27,6 +27,23 @@ void TCPclient::connect_server(const QString& host, quint16 port) {
     socket->connectToHost(host, port);
 }
 
+
+
+void TCPclient::send_data(int code, const QVariantList& data) {
+    QByteArray buffer;
+    QDataStream out(&buffer, QIODevice::WriteOnly);
+
+    out << code;
+    for(const QVariant& item : data) {
+        out << item;
+    }
+    socket->write(buffer);
+    socket->flush();
+}
+
+
+
+
 void TCPclient::disconnect_server() {
     socket->disconnectFromHost();
 }
@@ -46,16 +63,4 @@ void TCPclient::on_errorOccurred(QAbstractSocket::SocketError socketError) {
 void TCPclient::on_readyRead() {
     QByteArray data = socket->readAll();
     qDebug() << "Received: " << data;
-}
-
-void TCPclient::send_data(int code, const QVariantList& data) {
-    QByteArray buffer;
-    QDataStream out(&buffer, QIODevice::WriteOnly);
-
-    out << code;
-    for(const QVariant& item : data) {
-        out << item;
-    }
-    socket->write(buffer);
-    socket->flush();
 }

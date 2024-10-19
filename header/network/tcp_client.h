@@ -17,9 +17,6 @@ public:
     //네트워크 연결
     void connect_server(const QString &host, quint16 port);
     void disconnect_server();
-    //데이터 송신
-    void send_data(int code,  const QVariantList& data);
-    //데이터 수신
 
 private:
     QTcpSocket *socket;
@@ -30,7 +27,6 @@ private slots:
     void on_connected();
     void on_disconnected();
     void on_errorOccurred(QAbstractSocket::SocketError socketError);
-    void on_readyRead();
 };
 
 #endif//TCP_CLIENT_H

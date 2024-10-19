@@ -4,6 +4,7 @@
 #include "view_main.h"
 #include "view_register.h"
 #include "tcp_client.h"
+#include "http_client.h"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -25,7 +26,8 @@ public:
 
 private:
     Ui::LoginWindow *ui;
-    TCPclient *client;
+    TCPclient *tcpClient;
+    HTTPclient *httpClient;
     MainWindow *mainWindow;
     RegisterDialog *registerDialog;
     Login *login;

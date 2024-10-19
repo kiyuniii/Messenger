@@ -4,6 +4,7 @@
 
 #include "view_main.h"
 #include "tcp_client.h"
+#include "http_client.h"
 
 #include <QDialog>
 #include <QPushButton>
@@ -27,7 +28,8 @@ public:
 
 private:
     Ui::RegisterDialog *ui;
-    TCPclient *client;
+    TCPclient *tcpClient;
+    HTTPclient *httpClient;
     MainWindow *mainWindow;
     Login *newLogin;
     User *newUser;

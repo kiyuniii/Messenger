@@ -1,20 +1,20 @@
-#include "code_command.h"
 #include "view_login.h"
 #include "ui_view_login.h"
 
-#define HOSTIP "192.168.200.181"
+#define SERVER_IP "http://192.168.200.181"
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LoginWindow)
-    , client(new TCPclient(this))
+    , tcpClient(new TCPclient(this))
+    , httpClient(nullptr)
     , mainWindow(new MainWindow(this))
     , registerDialog(new RegisterDialog(this))
     , login(nullptr)
 {
     ui->setupUi(this);
 
-    client->connect_server(HOSTIP, 5060);
+    tcpClient->connect_server(SERVER_IP, 5060);
 
     connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::clicked_login_temp);
     connect(ui->button_register, &QPushButton::clicked, this, &LoginWindow::clicked_register);
@@ -22,7 +22,9 @@ LoginWindow::LoginWindow(QWidget *parent)
 
 LoginWindow::~LoginWindow() {
     delete ui;
-    client->disconnect_server();
+    tcpClient->disconnect_server();
+    delete tcpClient;
+    delete httpClient;
     delete mainWindow;
     delete registerDialog;
     delete login;
@@ -39,25 +41,12 @@ void LoginWindow::open_RegisterDialog() {
     registerDialog->show();
 }
 
-void LoginWindow::clicked_login_temp() {
-    QString inputID = ui->lineEdit_ID->text();
-    QString inputPW = ui->lineEdit_PW->text();
-    login = new Login(inputID, inputPW);
-
-    if((inputID == "client") && (inputPW == "client")) {
-        qDebug() << "login Successful";
-        client->send_data(CommandCode::LOGIN, {login->getID(), login->getPW()});
-        open_MainWindow();
-    } else {
-        return;
-    }
-}
-
-
 void LoginWindow::clicked_login() {
-    login->setID(ui->lineEdit_ID->text());
-    login->setPW(ui->lineEdit_PW->text());
-    client->send_data(CommandCode::LOGIN, {login->getID(), login->getPW()});
+    QString id = ui->lineEdit_ID->text();
+    QString pw = ui->lineEdit_PW->text();
+
+    QUrl url = (QString(SERVER_IP) + "api/login");
+    httpClient->send_postRequest_login(url, id, pw);
 }
 
 void LoginWindow::clicked_register() {
