@@ -2,7 +2,6 @@
 #define VIEW_LOGIN_H
 
 #include "view_main.h"
-//#include "dialog_register.h"
 #include "controller_login.h"
 
 #include <QMainWindow>
@@ -26,16 +25,12 @@ public:
 private:
     Ui::LoginWindow *ui;
     MainWindow *mainWindow;
-    //RegisterDialog *registerDialog;
 
     LoginManager *loginManager;
 
 private slots:
     void open_MainWindow();
-    //void open_RegisterDialog();
     void clicked_loginButton();
-    //void clicked_registerButton();
-    //void on_registerCompleted();    //슬롯_RegisterDialog::registerCompleted()
 };
 
 #endif // VIEW_LOGIN_H

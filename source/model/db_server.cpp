@@ -1,9 +1,12 @@
 #include "db_server.h"
 
+#include <QDebug>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 
-DBserver::DBserver() { }
+DBserver::DBserver(QObject *parent)
+    : QObject(parent)
+{ }
 
 DBserver::~DBserver() { }
 
@@ -18,23 +21,12 @@ bool DBserver::open_database() {
                "id TEXT PRIMARY KEY, "
                "pw TEXT)");
 
-    if (query.lastError().isValid()) {
-        qDebug() << "Error: model_register/create_login_table" << query.lastError();
-        return false;
-    }
-
     /* 테이블(user) 생성 */
     query.exec("CREATE TABLE IF NOT EXISTS user ("
                "name TEXT, "
                "phone TEXT, "
                "email TEXT, "
                "birth TEXT)");
-
-    // 테이블 생성 실패 시 오류 출력
-    if (query.lastError().isValid()) {
-        qDebug() << "Error: model_register/create_user_table" << query.lastError();
-        return false;
-    }
 
     qDebug() << "Done: model_register/open_database";
     return true;
@@ -61,4 +53,22 @@ void DBserver::create_register(const Login& login, const User& user) {
     query.addBindValue(user.getBirth());
     query.exec();
     qDebug() << "회원가입 정보(user) 저장완료";
+}
+
+bool DBserver::read_login(const Login& login) {
+    QSqlQuery query(db);
+
+    query.prepare("SELECT id, pw FROM login WHERE id = ?");
+    query.addBindValue(login.getID());
+    query.exec();
+
+    if(query.next()) {
+        QString get_id = query.value(0).toString();
+        QString get_pw = query.value(1).toString();
+        qDebug() << "id: " << get_id << "pw: " << get_pw;
+        return true;
+    } else {
+        qDebug() << "no user found";
+        return false;
+    }
 }

@@ -32,6 +32,7 @@ public:
     QPushButton *button_serverOff;
     QLabel *label_serverStatus;
     QPushButton *button_exit;
+    QPushButton *button_logout;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -66,7 +67,10 @@ public:
         label_serverStatus->setGeometry(QRect(170, 50, 371, 31));
         button_exit = new QPushButton(centralwidget);
         button_exit->setObjectName("button_exit");
-        button_exit->setGeometry(QRect(290, 210, 150, 80));
+        button_exit->setGeometry(QRect(390, 200, 150, 80));
+        button_logout = new QPushButton(centralwidget);
+        button_logout->setObjectName("button_logout");
+        button_logout->setGeometry(QRect(170, 200, 150, 80));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -92,6 +96,7 @@ public:
         button_serverOff->setText(QCoreApplication::translate("MainWindow", "\354\204\234\353\262\204 \354\242\205\353\243\214", nullptr));
         label_serverStatus->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>", nullptr));
         button_exit->setText(QCoreApplication::translate("MainWindow", "\355\224\204\353\241\234\352\267\270\353\236\250 \354\242\205\353\243\214", nullptr));
+        button_logout->setText(QCoreApplication::translate("MainWindow", "\353\241\234\352\267\270\354\225\204\354\233\203", nullptr));
     } // retranslateUi
 
 };

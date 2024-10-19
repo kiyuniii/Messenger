@@ -1,6 +1,6 @@
 #include "view_main.h"
 #include "ui_view_main.h"
-#include "controller_tcpServer.h"
+#include "tcp_server.h"
 
 #include <QApplication>
 #include <QNetworkInterface>
@@ -8,13 +8,14 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) //UI 객체 생성
-    , tcpServer(nullptr)
+    , server(nullptr)
 {
     ui->setupUi(this);      //.ui에 정의된 UI요소 초기화
 
     connect(ui->button_serverOn, &QPushButton::clicked, this, &MainWindow::clicked_serverOn);
     connect(ui->button_serverOff, &QPushButton::clicked, this, &MainWindow::clicked_serverOff);
     connect(ui->button_exit, &QPushButton::clicked, this, &MainWindow::clicked_exit);
+    connect(ui->button_logout, &QPushButton::clicked, this, &MainWindow::catch_logout);
 }
 
 MainWindow::~MainWindow()
@@ -23,13 +24,13 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::clicked_serverOn() {
-    if(!tcpServer) {
-        tcpServer = new TCPServer(this);
+    if(!server) {
+        server = new TCPserver(this);
 
-        if(!tcpServer->listen(QHostAddress::Any, 5050)) {
+        if(!server->listen(QHostAddress::Any, 5050)) {
             qDebug() << "Error: Server Failed to start";
-            delete tcpServer;
-            tcpServer = nullptr;
+            delete server;
+            server = nullptr;
             return;
         }
         qDebug() << "Server Listening (PORT: 5050)";
@@ -41,12 +42,12 @@ void MainWindow::clicked_serverOn() {
 }
 
 void MainWindow::clicked_serverOff() {
-    if(tcpServer) {
-        tcpServer->close();
+    if(server) {
+        server->close();
         qDebug() << "Server Closed";
         ui->label_serverStatus->setText("Server Closed");
-        delete tcpServer;
-        tcpServer = nullptr;
+        delete server;
+        server = nullptr;
     } else {
         qDebug() << "Server already closed";
         ui->label_serverStatus->setText("Server already closed");
@@ -55,4 +56,8 @@ void MainWindow::clicked_serverOff() {
 
 void MainWindow::clicked_exit() {
     QApplication::quit();
+}
+
+void MainWindow::catch_logout() {
+    this->hide();
 }

@@ -3,17 +3,24 @@
 
 #include "model_login.h"
 #include "model_user.h"
+#include <QObject>
 #include <QtSql/QSqlDatabase>
 
-class DBserver {
+class DBserver : public QObject {
 public:
-    DBserver();
+    explicit DBserver(QObject *parent = nullptr);
     ~DBserver();
 
     bool open_database();
     void close_database();
+
+    /* controller_login */
+    //void create_login_log();
+
+    /* controller_register */
     void create_register(const Login& login, const User& user);
-    Login read_login(const Login& login);
+
+    bool read_login(const Login& login);
     User read_user(const User& user);
     void update_register(const Login& login, const User& user);
     void delete_register(const Login& login, const User& user);

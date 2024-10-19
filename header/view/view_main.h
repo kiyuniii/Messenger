@@ -1,7 +1,7 @@
 #ifndef VIEW_MAIN_H
 #define VIEW_MAIN_H
 
-#include "controller_tcpServer.h"
+#include "tcp_server.h"
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -21,12 +21,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    TCPServer *tcpServer;
-
+    TCPserver *server;
 
 private slots:
     void clicked_serverOn();
     void clicked_serverOff();
     void clicked_exit();
+    void catch_logout();
 };
 #endif // VIEW_MAIN_H

@@ -111,14 +111,27 @@
    <widget class="QPushButton" name="button_exit">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>210</y>
+      <x>390</x>
+      <y>200</y>
       <width>150</width>
       <height>80</height>
      </rect>
     </property>
     <property name="text">
      <string>프로그램 종료</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_logout">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>200</y>
+      <width>150</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>로그아웃</string>
     </property>
    </widget>
   </widget>
