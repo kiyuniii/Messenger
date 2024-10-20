@@ -1,5 +1,5 @@
 #include "controller_login.h"
-
+#include "db_server.h"
 #include <QDebug>
 
 LoginManager::LoginManager(QObject *parent)
@@ -26,3 +26,6 @@ bool LoginManager::logout() {
     return true;
 }
 
+bool LoginManager::verify_login(const QString& id, const QString& pw) {
+
+}

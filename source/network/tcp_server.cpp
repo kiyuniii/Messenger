@@ -32,5 +32,5 @@ void TCPserver::incomingConnection(qintptr socketDescriptor) {
 }
 
 void TCPserver::on_disconnected() {
-    qDebug() << "Client Disconnected";
+    qDebug() << "client Disconnected";
 }

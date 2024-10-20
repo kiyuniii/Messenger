@@ -1,5 +1,7 @@
-     #ifndef TCP_THREAD_H
+#ifndef TCP_THREAD_H
 #define TCP_THREAD_H
+
+#include "http_server.h"
 
 #include <QObject>
 #include <QThread>
@@ -18,6 +20,7 @@ protected:
 private:
     qintptr m_socketDescriptor;
     QTcpSocket *socket;
+    HTTPserver *httpServer;
 
 signals:
     //void finished();

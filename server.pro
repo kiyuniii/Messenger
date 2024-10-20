@@ -18,7 +18,6 @@ SOURCES += \
     $$files($$PWD/source/view/*.cpp)   \
     $$files($$PWD/source/controller/*.cpp) \
     $$files($$PWD/source/network/*.cpp) \
-    source/network/http_server.cpp
 
 # 헤더 파일
 HEADERS += \
@@ -26,7 +25,6 @@ HEADERS += \
     $$files($$PWD/header/view/*.h)   \
     $$files($$PWD/header/controller/*.h) \
     $$files($$PWD/header/network/*.h) \
-    header/network/http_server.h
 
 # UI forms 파일
 FORMS += \
