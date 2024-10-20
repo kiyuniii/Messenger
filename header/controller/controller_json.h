@@ -11,7 +11,8 @@ public:
     JSONmanager(QObject *parent);
     ~JSONmanager();
 
-    QByteArray make_jsonDoc_login(const QString& id, const QString& pw);
+    QByteArray make_jsonDoc_login(const QString& id,\
+                                  const QString& pw);
     //QJsonDocument make_jsonDoc_user(const QString& name, const QString& phone, const QString& email, const QString& birth);
 
 private:

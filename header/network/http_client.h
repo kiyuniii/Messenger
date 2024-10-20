@@ -5,7 +5,6 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
-#include <QNetworkReply>
 #include <QObject>
 #include <QUrl>
 #include <QJsonDocument>
@@ -18,7 +17,9 @@ public:
     HTTPclient(QObject *parent);
     ~HTTPclient();
 
-    void send_postRequest_login(const QUrl& url, const QString& id, const QString& pw);
+    void send_postRequest_login(const QUrl& url,\
+                                const QString& id,\
+                                const QString& pw);
     //void send_postRequest_register(const QUrl& url, const QString& name, const QString& phone, const QString& email, const QString& birth);
 
 private:
