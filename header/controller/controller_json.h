@@ -1,11 +1,16 @@
 #ifndef CONTROLLER_JSON_H
 #define CONTROLLER_JSON_H
 
+#include "db_server.h"
 #include "model_login.h"
-//#include "model_user.h"
+#include "model_user.h"
 
 #include <QObject>
 #include <QByteArray>
+
+class HTTPserver;
+class Login;
+class User;
 
 class JSONmanager : public QObject {
 Q_OBJECT
@@ -14,9 +19,21 @@ public:
     JSONmanager(QObject *parent);
     ~JSONmanager();
 
-    Login json_login(const QByteArray& jsonArray);
-    //User json_user(const QByteArray& jsonArray);
+
+    Login* parse_login(const QByteArray& jsonArray);    //QString = id
+    User* parse_user(const QByteArray& jsonArray);
+
+    QByteArray response_login_json(bool result);
+    QByteArray response_register_json(bool result);
+
     QString statusToMessage(const int& status);
+
+private:
+    HTTPserver *httpServer;
+    DBserver *dbServer;
+    Login *login;
+    User *user;
+
 };
 
 #endif // CONTROLLER_JSON_H

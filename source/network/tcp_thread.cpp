@@ -1,4 +1,5 @@
 #include "tcp_thread.h"
+
 #include <QByteArray>
 //#include "code_command.h"
 
@@ -27,7 +28,7 @@ void TCPthread::run() {
 
 /* 클라이언트로부터 request 도착했을 때 발생 */
 void TCPthread::on_readyRead() {
-    httpServer = new HTTPserver(this);
     QByteArray jsonArray = socket->readAll();
-    httpServer->handle_request_login(jsonArray);
+    httpServer = new HTTPserver(this);
+    httpServer->handle_request(jsonArray);
 }

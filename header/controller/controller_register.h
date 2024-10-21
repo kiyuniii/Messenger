@@ -1,21 +1,24 @@
 #ifndef CONTROLLER_REGISTER_H
 #define CONTROLLER_REGISTER_H
 
-#include "db_server.h"
 #include "model_login.h"
 #include "model_user.h"
+#include "db_server.h"
+#include "controller_json.h"
+
 #include <QObject>
 
-class ControlRegister : public QObject {
+class RegisterManager : public QObject {
     Q_OBJECT
 public:
-    explicit ControlRegister(QObject *parent = nullptr);
-    ~ControlRegister();
+    explicit RegisterManager(QObject *parent = nullptr);
+    ~RegisterManager();
 
-    void add_register(const Login& login, const User& user);
+    bool verify_register(const QByteArray& jsonArray);
 
 private:
     DBserver *dbServer;
+    JSONmanager *jsonManager;
     Login *login;
     User *user;
 

@@ -20,13 +20,18 @@ public:
     /* controller_register */
     void create_register(const Login& login, const User& user);
 
-    bool read_login(const Login& login);
+    Login* read_login(int key);
     User read_user(const User& user);
     void update_register(const Login& login, const User& user);
     void delete_register(const Login& login, const User& user);
 
+    bool isIDavailable(const QString& id);
+
+    int IDtoKey(const QString& id);
+
 private:
     QSqlDatabase db;
+    Login *login;
 };
 
 #endif // DB_SERVER_H

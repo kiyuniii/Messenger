@@ -15,8 +15,3 @@ void Login::setID(const QString& id) {
 void Login::setPW(const QString& pw) {
     m_PW = pw;
 }
-
-LoginModel::LoginModel() { }
-
-LoginModel::~LoginModel() {
-}

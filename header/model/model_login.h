@@ -17,12 +17,4 @@ private:
     QString m_PW;
 };
 
-class LoginModel {
-public:
-    LoginModel();
-    ~LoginModel();
-
-private:
-};
-
 #endif // MODEL_LOGIN_H

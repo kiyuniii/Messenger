@@ -6,6 +6,7 @@
 
 DBserver::DBserver(QObject *parent)
     : QObject(parent)
+    , login(nullptr)
 { }
 
 DBserver::~DBserver() { }
@@ -68,21 +69,53 @@ void DBserver::create_register(const Login& login, const User& user) {
     qDebug() << "회원가입 정보(user) 저장완료";
 }
 
-
-bool DBserver::read_login(const Login& login) {
+Login* DBserver::read_login(int key) {
     QSqlQuery query(db);
 
-    query.prepare("SELECT id, pw FROM login WHERE id = ?");
-    query.addBindValue(login.getID());
-    query.exec();
+    query.prepare("SELECT id, pw FROM login WHERE key = ?");
+    query.addBindValue(key);
 
+    QString id = query.value(0).toString();
+    QString pw = query.value(1).toString();
+    qDebug() << "get ID: " << id;
+    qDebug() << "get PW: " << pw;
+    qDebug() << "from key: " << key;
+
+    login = new Login(id, pw);
+
+    return login;
+}
+
+int DBserver::IDtoKey(const QString& id) {
+    QSqlQuery query(db);
+
+    query.prepare("SELECT key FROM login WHERE id = ?");
+    query.addBindValue(id);
+
+    int key = query.value(0).toInt();
+    qDebug() << "convert ID: " << id << "to key: " << key;
+
+    return key;
+}
+
+bool DBserver::isIDavailable(const QString& id) {
+    QSqlQuery query(db);
+
+    query.prepare("SELECT COUNT(*) FROM login WHERE id = ?");
+    query.addBindValue(id);
+
+    query.exec();
     if(query.next()) {
-        QString get_id = query.value(0).toString();
-        QString get_pw = query.value(1).toString();
-        qDebug() << "id: " << get_id << "pw: " << get_pw;
-        return true;
+        int count = query.value(0).toInt();
+        if(count > 0) {
+            qDebug() << "db_server: ID ALREADY EXISTS" << id;
+            return false;
+        } else {
+            qDebug() << "db_server: ID AVAILABLE" << id;
+            return true;
+        }
     } else {
-        qDebug() << "no user found";
+        qDebug() << "ERROR: db_server";
         return false;
     }
 }

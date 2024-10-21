@@ -28,7 +28,7 @@ void LoginWindow::clicked_loginButton() {
     QString inputPW = ui->lineEdit_PW->text();
     Login inputLogin(inputID, inputPW);
 
-    if(loginManager->login(inputLogin)) {
+    if(loginManager->admin_login(inputLogin)) {
         qDebug() << "Login Successful";
         open_MainWindow();
     } else {
