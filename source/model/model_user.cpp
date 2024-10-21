@@ -1,4 +1,4 @@
-#include "model_register.h"
+#include "model_user.h"
 
 User::User(const QString& name, const QString& phone, const QString& email, const QString& birth)
     : m_name(name), m_phone(phone),  m_email(email), m_birth(birth){ }

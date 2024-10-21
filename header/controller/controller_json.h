@@ -1,6 +1,9 @@
 #ifndef CONTROLLER_JSON_H
 #define CONTROLLER_JSON_H
 
+#include "model_login.h"
+#include "model_user.h"
+
 #include <QObject>
 #include <QByteArray>
 
@@ -11,11 +14,12 @@ public:
     JSONmanager(QObject *parent);
     ~JSONmanager();
 
-    QByteArray make_jsonDoc_login(const QString& id,\
-                                  const QString& pw);
-    //QJsonDocument make_jsonDoc_user(const QString& name, const QString& phone, const QString& email, const QString& birth);
+    QByteArray jsonDoc_login(const Login& login);
+    QByteArray jsonDoc_register(const Login& login, const User& user);
 
 private:
+    Login *login;
+    User *user;
 
 private slots:
 

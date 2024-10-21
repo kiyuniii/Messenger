@@ -16,7 +16,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 
     tcpClient->connect_server(SERVER_IP, 5060);
 
-    connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::clicked_login_temp);
+    connect(ui->button_login, &QPushButton::clicked, this, &LoginWindow::clicked_login);
     connect(ui->button_register, &QPushButton::clicked, this, &LoginWindow::clicked_register);
 }
 
@@ -45,11 +45,12 @@ void LoginWindow::clicked_login() {
     QString id = ui->lineEdit_ID->text();
     QString pw = ui->lineEdit_PW->text();
 
+    login = new Login(id, pw);
     QUrl url = (QString(SERVER_IP) + "api/login");
-    httpClient->send_postRequest_login(url, id, pw);
+    httpClient->post_login(url, *login);
 }
 
-void LoginWindow::clicked_register() {
+void LoginWindow::clicked_register() {    
     open_RegisterDialog();
 }
 

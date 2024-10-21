@@ -37,6 +37,10 @@ void TCPclient::on_connected() {
     qDebug() << "Connected to Server";
 }
 
+void TCPclient::on_readyRead() {
+
+}
+
 void TCPclient::on_disconnected() {
     qDebug() << "Disconnected from Server";
 }

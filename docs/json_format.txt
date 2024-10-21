@@ -1,0 +1,48 @@
+# login request
+{
+    "login": {
+        "id": "user123",
+        "pw": "password123"
+    }
+}
+
+# register request
+{
+    "register": {
+        "login": {
+            "id": "newuser",
+            "pw": "newpassword"
+        },
+        "user": {
+            "name": "홍길동",
+            "phone": "010-1234-5678",
+            "email": "hong@example.com",
+            "birth": "1990-01-01"
+        }
+    }
+}
+
+
+#================================================
+# login response
+{
+    "status": "success",
+    "message": "Login successful",
+    "user": {
+        "id": "user123",
+        "name": "홍길동",
+        "email": "hong@example.com"
+    }
+}
+
+
+# register response
+{
+    "status": "success",
+    "message": "Registration successful",
+    "user": {
+        "id": "newuser",
+        "name": "홍길동"
+    }
+}
+

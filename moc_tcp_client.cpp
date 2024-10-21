@@ -38,11 +38,11 @@ constexpr auto qt_meta_stringdata_CLASSTCPclientENDCLASS = QtMocHelpers::stringD
     "TCPclient",
     "on_connected",
     "",
+    "on_readyRead",
     "on_disconnected",
     "on_errorOccurred",
     "QAbstractSocket::SocketError",
-    "socketError",
-    "on_readyRead"
+    "socketError"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -65,14 +65,14 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSTCPclientENDCLASS[] = {
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
        1,    0,   38,    2, 0x08,    1 /* Private */,
        3,    0,   39,    2, 0x08,    2 /* Private */,
-       4,    1,   40,    2, 0x08,    3 /* Private */,
-       7,    0,   43,    2, 0x08,    5 /* Private */,
+       4,    0,   40,    2, 0x08,    3 /* Private */,
+       5,    1,   41,    2, 0x08,    4 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 5,    6,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 6,    7,
 
        0        // eod
 };
@@ -88,13 +88,13 @@ Q_CONSTINIT const QMetaObject TCPclient::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<TCPclient, std::true_type>,
         // method 'on_connected'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_readyRead'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_disconnected'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_errorOccurred'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QAbstractSocket::SocketError, std::false_type>,
-        // method 'on_readyRead'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<QAbstractSocket::SocketError, std::false_type>
     >,
     nullptr
 } };
@@ -106,15 +106,15 @@ void TCPclient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         (void)_t;
         switch (_id) {
         case 0: _t->on_connected(); break;
-        case 1: _t->on_disconnected(); break;
-        case 2: _t->on_errorOccurred((*reinterpret_cast< std::add_pointer_t<QAbstractSocket::SocketError>>(_a[1]))); break;
-        case 3: _t->on_readyRead(); break;
+        case 1: _t->on_readyRead(); break;
+        case 2: _t->on_disconnected(); break;
+        case 3: _t->on_errorOccurred((*reinterpret_cast< std::add_pointer_t<QAbstractSocket::SocketError>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 2:
+        case 3:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:

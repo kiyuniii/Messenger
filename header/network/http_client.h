@@ -10,6 +10,9 @@
 #include <QJsonDocument>
 #include <QByteArray>
 
+class Login;
+class User;
+
 class HTTPclient : public QObject {
 Q_OBJECT
 
@@ -17,14 +20,14 @@ public:
     HTTPclient(QObject *parent);
     ~HTTPclient();
 
-    void send_postRequest_login(const QUrl& url,\
-                                const QString& id,\
-                                const QString& pw);
-    //void send_postRequest_register(const QUrl& url, const QString& name, const QString& phone, const QString& email, const QString& birth);
+    void post_login(const QUrl& url, const Login& login);
+    void post_register(const QUrl& url, const Login& login, const User& user);
 
 private:
     QNetworkAccessManager *manager;
     JSONmanager *jsonManager;
+    Login *login;
+    User *user;
 
 private slots:
 

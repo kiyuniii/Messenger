@@ -2,7 +2,7 @@
 #define TCP_CLIENT_H
 
 #include "model_login.h"
-#include "model_register.h"
+#include "model_user.h"
 #include <QTcpSocket>
 #include <QAbstractSocket>
 #include <QObject>
@@ -25,6 +25,7 @@ private:
 
 private slots:
     void on_connected();
+    void on_readyRead();
     void on_disconnected();
     void on_errorOccurred(QAbstractSocket::SocketError socketError);
 };

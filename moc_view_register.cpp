@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "header/view/view_register.h"
+#include <QtNetwork/QSslError>
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
@@ -39,8 +40,6 @@ constexpr auto qt_meta_stringdata_CLASSRegisterDialogENDCLASS = QtMocHelpers::st
     "RegisterDialog",
     "registerCompleted",
     "",
-    "set_userData",
-    "update_userData",
     "clicked_register",
     "check_isPWSame",
     "open_mainWindow",
@@ -63,7 +62,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRegisterDialogENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,16 +70,14 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRegisterDialogENDCLASS[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   62,    2, 0x06,    1 /* Public */,
+       1,    0,   50,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       3,    0,   63,    2, 0x08,    2 /* Private */,
-       4,    0,   64,    2, 0x08,    3 /* Private */,
-       5,    0,   65,    2, 0x08,    4 /* Private */,
-       6,    0,   66,    2, 0x08,    5 /* Private */,
-       7,    0,   67,    2, 0x08,    6 /* Private */,
-       8,    2,   68,    2, 0x08,    7 /* Private */,
-      11,    3,   73,    2, 0x08,   10 /* Private */,
+       3,    0,   51,    2, 0x08,    2 /* Private */,
+       4,    0,   52,    2, 0x08,    3 /* Private */,
+       5,    0,   53,    2, 0x08,    4 /* Private */,
+       6,    2,   54,    2, 0x08,    5 /* Private */,
+       9,    3,   59,    2, 0x08,    8 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -89,10 +86,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRegisterDialogENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::QString, QMetaType::QString, QMetaType::QString,    9,   10,
-    QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,   12,   13,   14,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,    7,    8,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,   10,   11,   12,
 
        0        // eod
 };
@@ -107,10 +102,6 @@ Q_CONSTINIT const QMetaObject RegisterDialog::staticMetaObject = { {
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<RegisterDialog, std::true_type>,
         // method 'registerCompleted'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'set_userData'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'update_userData'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'clicked_register'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -138,14 +129,12 @@ void RegisterDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         (void)_t;
         switch (_id) {
         case 0: _t->registerCompleted(); break;
-        case 1: _t->set_userData(); break;
-        case 2: _t->update_userData(); break;
-        case 3: _t->clicked_register(); break;
-        case 4: _t->check_isPWSame(); break;
-        case 5: _t->open_mainWindow(); break;
-        case 6: { QString _r = _t->sum_email((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])));
+        case 1: _t->clicked_register(); break;
+        case 2: _t->check_isPWSame(); break;
+        case 3: _t->open_mainWindow(); break;
+        case 4: { QString _r = _t->sum_email((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 7: { QString _r = _t->sum_birth((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3])));
+        case 5: { QString _r = _t->sum_birth((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
@@ -180,13 +169,13 @@ int RegisterDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 8;
+        _id -= 6;
     }
     return _id;
 }

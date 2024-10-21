@@ -1,18 +1,17 @@
-#include "code_command.h"
 #include "view_register.h"
 #include "ui_view_register.h"
+
+#define SERVER_IP "http://192.168.200.181"
 
 RegisterDialog::RegisterDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::RegisterDialog)
-    , client(new TCPclient(this))
+    , tcpClient(new TCPclient(this))
     , mainWindow(new MainWindow(this))
     , newLogin(nullptr)
     , newUser(nullptr)
 {
     ui->setupUi(this);
-
-    set_userData();
 
     ui->lineEdit_PW->setEchoMode(QLineEdit::Password);
     ui->lineEdit_PWCheck->setEchoMode(QLineEdit::Password);
@@ -44,20 +43,30 @@ RegisterDialog::RegisterDialog(QWidget *parent)
 
 RegisterDialog::~RegisterDialog() {
     delete ui;
-    client->disconnect_server();
+    tcpClient->disconnect_server();
     delete mainWindow;
     delete newLogin;
     delete newUser;
 }
 
 void RegisterDialog::clicked_register() {
-    update_userData();
+    QString id = ui->lineEdit_ID->text();
+    QString pw = ui->lineEdit_PW->text();
+    newLogin = new Login(id, pw);
 
-    client->send_data(CommandCode::REGISTER, {newLogin->getID(), newLogin->getPW(),\
-        newUser->getName(), newUser->getPhone(), newUser->getEmail(), newUser->getBirth()});
+    QString name = ui->lineEdit_name->text();
+    QString phone = ui->lineEdit_phone->text();
+    QString email_address = ui->lineEdit_email->text();
+    QString email_domain = ui->comboBox_email->currentText();
+    QString email = sum_email(email_address, email_domain);
+    QString birth_year = ui->lineEdit_year->text();
+    QString birth_month = ui->comboBox_month->currentText();
+    QString birth_day = ui->comboBox_day->currentText();
+    QString birth = sum_birth(birth_year, birth_month, birth_day);
+    newUser = new User(name, phone, email, birth);
 
-    open_mainWindow();
-
+    QUrl url = QString(SERVER_IP) + "api/register";
+    httpClient->post_register(url, *newLogin, *newUser);
 }
 
 void RegisterDialog::check_isPWSame() {
@@ -79,39 +88,6 @@ void RegisterDialog::open_mainWindow() {
     mainWindow->show();
 }
 
-void RegisterDialog::set_userData() {
-    QString id = ui->lineEdit_ID->text();
-    QString pw = ui->lineEdit_PW->text();
-    //QString pwCheck = ui->lineEdit_PWCheck->text();
-    QString name = ui->lineEdit_name->text();
-    QString phone = ui->lineEdit_phone->text();
-    QString emailAddress = ui->lineEdit_email->text();
-    QString emailDomain = ui->comboBox_email->currentText();
-    QString year = ui->lineEdit_year->text();
-    QString month = ui->comboBox_month->currentText();
-    QString day = ui->comboBox_day->currentText();
-
-    QString email = sum_email(emailAddress, emailDomain);
-    QString birth = sum_birth(year, month, day);
-
-    newLogin = new Login(id, pw);
-    newUser = new User(name, phone, email, birth);
-}
-
-void RegisterDialog::update_userData() {
-
-    if(newLogin) {
-        newLogin->setID(ui->lineEdit_ID->text());
-        newLogin->setPW(ui->lineEdit_PW->text());
-    }
-    if(newUser) {
-        newUser->setName(ui->lineEdit_name->text());
-        newUser->setPhone(ui->lineEdit_phone->text());
-        newUser->setEmail(sum_email(ui->lineEdit_email->text(), ui->comboBox_email->currentText()));
-        newUser->setBirth(sum_birth(ui->lineEdit_year->text(), ui->comboBox_month->currentText(), ui->comboBox_day->currentText()));
-    }
-}
-
 QString RegisterDialog::sum_email(QString address, QString domain) {
     QString formattedEmail = QString("%1@%2")
         .arg(address)
@@ -127,5 +103,3 @@ QString RegisterDialog::sum_birth(QString year, QString month, QString day) {
                  .arg(day.rightJustified(2, '0'));  // 일을 두 자릿수로 맞춤
     return formattedBirth;
 }
-
-

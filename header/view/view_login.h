@@ -5,6 +5,7 @@
 #include "view_register.h"
 #include "tcp_client.h"
 #include "http_client.h"
+#include "model_login.h"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -36,7 +37,6 @@ private slots:
     void open_MainWindow();
     void open_RegisterDialog();
 
-    void clicked_login_temp();
     void clicked_login();
     void clicked_register();
 };

@@ -1,5 +1,5 @@
-#ifndef MODEL_REGISTER_H
-#define MODEL_REGISTER_H
+#ifndef MODEL_USER_H
+#define MODEL_USER_H
 
 #include <QDebug>
 
@@ -23,4 +23,4 @@ private:
     QString m_birth;
 };
 
-#endif//MODEL_REGISTER_H
+#endif//MODEL_USER_H

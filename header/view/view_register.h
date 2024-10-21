@@ -38,9 +38,6 @@ signals:
     void registerCompleted();
 
 private slots:
-    void set_userData();
-    void update_userData();
-
     void clicked_register();
     void check_isPWSame();
 
