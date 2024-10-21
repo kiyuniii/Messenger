@@ -30,5 +30,5 @@ void TCPthread::run() {
 void TCPthread::on_readyRead() {
     QByteArray jsonArray = socket->readAll();
     httpServer = new HTTPserver(this);
-    httpServer->handle_request(jsonArray);
+    httpServer->handle_request(jsonArray, socket);
 }

@@ -23,8 +23,9 @@ public:
     Login* parse_login(const QByteArray& jsonArray);    //QString = id
     User* parse_user(const QByteArray& jsonArray);
 
-    QByteArray response_login_json(bool result);
-    QByteArray response_register_json(bool result);
+    QByteArray response_http_Header(int statusCode, const QJsonObject& response_json);
+    QByteArray response_login_json(bool result, Login* login, User* user);
+    QByteArray response_register_json(bool result, Login* login, User* user);
 
     QString statusToMessage(const int& status);
 

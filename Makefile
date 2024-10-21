@@ -1908,7 +1908,6 @@ moc_controller_login.cpp: header/controller/controller_login.h \
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/server/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/server -I/home/kiyun/paper/projects/Messenger/server/header -I/home/kiyun/paper/projects/Messenger/server/header/model -I/home/kiyun/paper/projects/Messenger/server/header/view -I/home/kiyun/paper/projects/Messenger/server/header/controller -I/home/kiyun/paper/projects/Messenger/server/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/controller/controller_login.h -o moc_controller_login.cpp
 
 moc_controller_register.cpp: header/controller/controller_register.h \
-		header/model/db_server.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
@@ -2019,6 +2018,7 @@ moc_controller_register.cpp: header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		header/model/model_user.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QString \
+		header/model/db_server.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
@@ -2029,6 +2029,8 @@ moc_controller_register.cpp: header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/controller/controller_json.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray \
 		moc_predefs.h \
 		../../../../Qt/6.7.2/gcc_64/libexec/moc
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/server/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/server -I/home/kiyun/paper/projects/Messenger/server/header -I/home/kiyun/paper/projects/Messenger/server/header/model -I/home/kiyun/paper/projects/Messenger/server/header/view -I/home/kiyun/paper/projects/Messenger/server/header/controller -I/home/kiyun/paper/projects/Messenger/server/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/controller/controller_register.h -o moc_controller_register.cpp
@@ -2158,6 +2160,7 @@ moc_http_server.cpp: header/network/http_server.h \
 		header/controller/controller_json.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray \
 		header/controller/controller_login.h \
+		header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -2193,6 +2196,7 @@ moc_http_server.cpp: header/network/http_server.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QIODevice \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		moc_predefs.h \
 		../../../../Qt/6.7.2/gcc_64/libexec/moc
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/server/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/server -I/home/kiyun/paper/projects/Messenger/server/header -I/home/kiyun/paper/projects/Messenger/server/header/model -I/home/kiyun/paper/projects/Messenger/server/header/view -I/home/kiyun/paper/projects/Messenger/server/header/controller -I/home/kiyun/paper/projects/Messenger/server/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/network/http_server.h -o moc_http_server.cpp
@@ -2469,6 +2473,7 @@ moc_tcp_thread.cpp: header/network/tcp_thread.h \
 		header/controller/controller_json.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray \
 		header/controller/controller_login.h \
+		header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -2504,11 +2509,11 @@ moc_tcp_thread.cpp: header/network/tcp_thread.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QIODevice \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QThread \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		moc_predefs.h \
 		../../../../Qt/6.7.2/gcc_64/libexec/moc
 	/home/kiyun/Qt/6.7.2/gcc_64/libexec/moc $(DEFINES) --include /home/kiyun/paper/projects/Messenger/server/moc_predefs.h -I/home/kiyun/Qt/6.7.2/gcc_64/mkspecs/linux-g++ -I/home/kiyun/paper/projects/Messenger/server -I/home/kiyun/paper/projects/Messenger/server/header -I/home/kiyun/paper/projects/Messenger/server/header/model -I/home/kiyun/paper/projects/Messenger/server/header/view -I/home/kiyun/paper/projects/Messenger/server/header/controller -I/home/kiyun/paper/projects/Messenger/server/header/network -I/home/kiyun/Qt/6.7.2/gcc_64/include -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtWidgets -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtGui -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtSql -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtNetwork -I/home/kiyun/Qt/6.7.2/gcc_64/include/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include header/network/tcp_thread.h -o moc_tcp_thread.cpp
@@ -3785,7 +3790,6 @@ controller_login.o: source/controller/controller_login.cpp header/controller/con
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller_login.o source/controller/controller_login.cpp
 
 controller_register.o: source/controller/controller_register.cpp header/controller/controller_register.h \
-		header/model/db_server.h \
 		header/model/model_login.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QDebug \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdebug.h \
@@ -3896,6 +3900,7 @@ controller_register.o: source/controller/controller_register.cpp header/controll
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		header/model/model_user.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QString \
+		header/model/db_server.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QObject \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qobject.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qcoreevent.h \
@@ -3905,7 +3910,9 @@ controller_register.o: source/controller/controller_register.cpp header/controll
 		../../../../Qt/6.7.2/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsql-config.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h
+		../../../../Qt/6.7.2/gcc_64/include/QtSql/qtsqlexports.h \
+		header/controller/controller_json.h \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller_register.o source/controller/controller_register.cpp
 
 http_server.o: source/network/http_server.cpp header/network/http_server.h \
@@ -4033,6 +4040,7 @@ http_server.o: source/network/http_server.cpp header/network/http_server.h \
 		header/controller/controller_json.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray \
 		header/controller/controller_login.h \
+		header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -4067,7 +4075,8 @@ http_server.o: source/network/http_server.cpp header/network/http_server.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkReply \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QIODevice \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkRequest
+		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o http_server.o source/network/http_server.cpp
 
 tcp_server.o: source/network/tcp_server.cpp header/network/tcp_server.h \
@@ -4227,6 +4236,7 @@ tcp_server.o: source/network/tcp_server.cpp header/network/tcp_server.h \
 		header/controller/controller_json.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray \
 		header/controller/controller_login.h \
+		header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkrequest.h \
@@ -4254,8 +4264,8 @@ tcp_server.o: source/network/tcp_server.cpp header/network/tcp_server.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QIODevice \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkRequest \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/QThread \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket
+		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/QThread
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcp_server.o source/network/tcp_server.cpp
 
 tcp_thread.o: source/network/tcp_thread.cpp header/network/tcp_thread.h \
@@ -4384,6 +4394,7 @@ tcp_thread.o: source/network/tcp_thread.cpp header/network/tcp_thread.h \
 		header/controller/controller_json.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QByteArray \
 		header/controller/controller_login.h \
+		header/controller/controller_register.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -4419,11 +4430,11 @@ tcp_thread.o: source/network/tcp_thread.cpp header/network/tcp_thread.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QIODevice \
 		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/QThread \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qthread.h \
 		../../../../Qt/6.7.2/gcc_64/include/QtCore/qdeadlinetimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h \
-		../../../../Qt/6.7.2/gcc_64/include/QtNetwork/QTcpSocket
+		../../../../Qt/6.7.2/gcc_64/include/QtCore/qelapsedtimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcp_thread.o source/network/tcp_thread.cpp
 
 moc_view_login.o: moc_view_login.cpp 

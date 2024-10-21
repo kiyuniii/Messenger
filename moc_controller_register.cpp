@@ -33,16 +33,16 @@ QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
 
 #ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSControlRegisterENDCLASS_t {};
-constexpr auto qt_meta_stringdata_CLASSControlRegisterENDCLASS = QtMocHelpers::stringData(
-    "ControlRegister"
+struct qt_meta_stringdata_CLASSRegisterManagerENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSRegisterManagerENDCLASS = QtMocHelpers::stringData(
+    "RegisterManager"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
 #endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSControlRegisterENDCLASS[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSRegisterManagerENDCLASS[] = {
 
  // content:
       12,       // revision
@@ -58,20 +58,20 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSControlRegisterENDCLASS[] = {
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject ControlRegister::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject RegisterManager::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSControlRegisterENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSControlRegisterENDCLASS,
+    qt_meta_stringdata_CLASSRegisterManagerENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSRegisterManagerENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSControlRegisterENDCLASS_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSRegisterManagerENDCLASS_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<ControlRegister, std::true_type>
+        QtPrivate::TypeAndForceComplete<RegisterManager, std::true_type>
     >,
     nullptr
 } };
 
-void ControlRegister::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void RegisterManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     (void)_o;
     (void)_id;
@@ -79,20 +79,20 @@ void ControlRegister::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     (void)_a;
 }
 
-const QMetaObject *ControlRegister::metaObject() const
+const QMetaObject *RegisterManager::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *ControlRegister::qt_metacast(const char *_clname)
+void *RegisterManager::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSControlRegisterENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSRegisterManagerENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int ControlRegister::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int RegisterManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     return _id;
