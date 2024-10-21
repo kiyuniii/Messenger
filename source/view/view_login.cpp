@@ -1,7 +1,7 @@
 #include "view_login.h"
 #include "ui_view_login.h"
 
-#define SERVER_IP "http://192.168.200.181"
+#define SERVER_IP "192.168.0.20"
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,9 +25,9 @@ LoginWindow::~LoginWindow() {
     tcpClient->disconnect_server();
     delete tcpClient;
     delete httpClient;
+    delete login;
     delete mainWindow;
     delete registerDialog;
-    delete login;
 }
 
 void LoginWindow::open_MainWindow() {
@@ -45,8 +45,9 @@ void LoginWindow::clicked_login() {
     QString id = ui->lineEdit_ID->text();
     QString pw = ui->lineEdit_PW->text();
 
+    httpClient = new HTTPclient(this);
     login = new Login(id, pw);
-    QUrl url = (QString(SERVER_IP) + "api/login");
+    QUrl url = "http://" + QString(SERVER_IP) + "/api/login";
     httpClient->post_login(url, *login);
 }
 

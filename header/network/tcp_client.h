@@ -1,8 +1,10 @@
 #ifndef TCP_CLIENT_H
 #define TCP_CLIENT_H
 
+#include "http_client.h"
 #include "model_login.h"
 #include "model_user.h"
+
 #include <QTcpSocket>
 #include <QAbstractSocket>
 #include <QObject>
@@ -20,6 +22,7 @@ public:
 
 private:
     QTcpSocket *socket;
+    HTTPclient *httpClient;
     Login *login;
     User *user;
 

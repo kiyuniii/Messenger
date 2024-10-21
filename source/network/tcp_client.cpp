@@ -3,11 +3,11 @@
 
 TCPclient::TCPclient(QObject *parent)
     : QObject(parent)
-    , socket(nullptr)
+    , socket(new QTcpSocket(this))
+    , httpClient(new HTTPclient(this))
     , login(nullptr)
     , user(nullptr)
 {
-    socket = new QTcpSocket(this);
     qDebug() << "server started";
 
     connect(socket, &QTcpSocket::connected, this, &TCPclient::on_connected);
@@ -16,6 +16,7 @@ TCPclient::TCPclient(QObject *parent)
 
 TCPclient::~TCPclient() {
     delete socket;
+    delete httpClient;
     delete login;
     delete user;
 }
@@ -29,6 +30,8 @@ void TCPclient::connect_server(const QString& host, quint16 port) {
 
 
 
+
+
 void TCPclient::disconnect_server() {
     socket->disconnectFromHost();
 }
@@ -38,7 +41,8 @@ void TCPclient::on_connected() {
 }
 
 void TCPclient::on_readyRead() {
-
+    QByteArray jsonArray = socket->readAll();
+    httpClient->handle_response(jsonArray);
 }
 
 void TCPclient::on_disconnected() {

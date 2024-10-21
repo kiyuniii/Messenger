@@ -17,6 +17,9 @@ public:
     QByteArray jsonDoc_login(const Login& login);
     QByteArray jsonDoc_register(const Login& login, const User& user);
 
+    QString parse_login(const QByteArray& jsonArray);
+    QString parse_register(const QByteArray& jsonArray);
+
 private:
     Login *login;
     User *user;

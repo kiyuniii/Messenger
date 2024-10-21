@@ -10,7 +10,10 @@ JSONmanager::JSONmanager(QObject* parent)
 { }
 
 JSONmanager::~JSONmanager()
-{ }
+{
+    delete login;
+    delete user;
+}
 
 QByteArray JSONmanager::jsonDoc_login(const Login& login) {
     QString inputID = login.getID();
@@ -56,4 +59,31 @@ QByteArray JSONmanager::jsonDoc_register(const Login& login, const User& user) {
     QByteArray jsonArray = jsonDoc.toJson();    //toJson(QJsonDocument::Compact) 공백 없이 옵션
 
     return jsonArray;
+}
+
+/* Login: parse + verify(check) -> 나중에 책임분담 필요 */
+QString JSONmanager::parse_login(const QByteArray& jsonArray) {
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonArray);
+    QJsonObject jsonObj = jsonDoc.object();
+
+    QString status;
+    if(jsonObj.contains("status") && jsonObj["status"].isString()) {
+        status = jsonObj["status"].toString();
+    } else {
+        qWarning() << "response type Error: missing or !QString" << status;
+    }
+    return status;
+}
+
+QString JSONmanager::parse_register(const QByteArray& jsonArray) {
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonArray);
+    QJsonObject jsonObj = jsonDoc.object();
+
+    QString status;
+    if(jsonObj.contains("status") && jsonObj["status"].isString()) {
+        status = jsonObj["status"].toString();
+    } else {
+        qWarning() << "response type Error: missing or !QString" << status;
+    }
+    return status;
 }

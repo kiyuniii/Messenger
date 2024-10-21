@@ -1,12 +1,13 @@
 #include "view_register.h"
 #include "ui_view_register.h"
 
-#define SERVER_IP "http://192.168.200.181"
+#define SERVER_IP "192.168.0.20"
 
 RegisterDialog::RegisterDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::RegisterDialog)
     , tcpClient(new TCPclient(this))
+    , httpClient(nullptr)
     , mainWindow(new MainWindow(this))
     , newLogin(nullptr)
     , newUser(nullptr)
@@ -44,6 +45,8 @@ RegisterDialog::RegisterDialog(QWidget *parent)
 RegisterDialog::~RegisterDialog() {
     delete ui;
     tcpClient->disconnect_server();
+    delete tcpClient;
+    delete httpClient;
     delete mainWindow;
     delete newLogin;
     delete newUser;
@@ -52,6 +55,8 @@ RegisterDialog::~RegisterDialog() {
 void RegisterDialog::clicked_register() {
     QString id = ui->lineEdit_ID->text();
     QString pw = ui->lineEdit_PW->text();
+
+    if(newLogin != nullptr) delete newLogin;
     newLogin = new Login(id, pw);
 
     QString name = ui->lineEdit_name->text();
@@ -63,9 +68,13 @@ void RegisterDialog::clicked_register() {
     QString birth_month = ui->comboBox_month->currentText();
     QString birth_day = ui->comboBox_day->currentText();
     QString birth = sum_birth(birth_year, birth_month, birth_day);
+
+    if(newUser != nullptr) delete newUser;
     newUser = new User(name, phone, email, birth);
 
-    QUrl url = QString(SERVER_IP) + "api/register";
+    if(httpClient != nullptr) delete httpClient;
+    httpClient = new HTTPclient(this);
+    QUrl url = "http://" + QString(SERVER_IP) + "/api/register";
     httpClient->post_register(url, *newLogin, *newUser);
 }
 
